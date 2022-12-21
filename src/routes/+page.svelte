@@ -6,4 +6,4 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-hello
+<div class="mx-2 flex bg-slate-50 " />
