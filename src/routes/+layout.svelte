@@ -5,18 +5,36 @@
 	 * @type {string[]}
 	 */
 	let names = [].concat(...new Array(11).fill(['Bob', 'Alice', 'Charlie']));
+	let cohorts = [
+		'Harakeke-2022',
+		'Kahikatea-2022',
+		'Matai-2022',
+		'Pohutukawa-2022',
+		'Horoeka-2022'
+	];
 </script>
 
-<h1 class="p-10 text-3xl text-slate-400">Cohort Dashboard</h1>
-<main class="m-auto grid w-5/6 grid-cols-12">
-	<aside class="w-auto border-r-2 border-r-slate-500">
+<main class="m-auto flex">
+	<aside class="flex flex-none basis-1/6 flex-col items-center">
+		<h1 class="p-10 text-center font-display text-3xl text-slate-400">
+			Cohort Analytics Dashboard
+		</h1>
+		<select
+			name="cohorts"
+			id="cohorts"
+			class="mb-2 w-40 rounded-lg bg-slate-700 p-2 text-slate-300"
+		>
+			{#each cohorts as cohort}
+				<option value={cohort}>{cohort}</option>
+			{/each}
+		</select>
 		<ul class="text-lg text-slate-500">
 			{#each names as name}
 				<li class="py-1">{name}</li>
 			{/each}
 		</ul>
 	</aside>
-	<section class="col-span-11 ml-4">
+	<section class="col-span-11 mt-5 mr-5 w-1/6 grow">
 		<slot />
 	</section>
 </main>
