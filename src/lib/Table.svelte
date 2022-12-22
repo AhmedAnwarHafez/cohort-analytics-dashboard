@@ -12,7 +12,7 @@
 	];
 </script>
 
-<div class="table w-full rounded-xl border-2 border-slate-500 p-4 text-sm text-slate-300">
+<div class="table w-full rounded-xl border-2 border-slate-500 p-4 text-lg text-slate-300">
 	<div class="table-header-group bg-slate-700">
 		<div class="table-row">
 			<div class="table-cell ">Student</div>
