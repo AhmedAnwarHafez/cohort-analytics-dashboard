@@ -1,0 +1,52 @@
+export const data = {
+	label: 'hello',
+	labels: [
+		'Bob',
+		'Alice',
+		'Charlie',
+		'Dave',
+		'Eve',
+		'Frank',
+		'Grace',
+		'Helen',
+		'Ivan',
+		'Judy',
+		'Kevin',
+		'Linda',
+		'Mike',
+		'Nancy',
+		'Oscar',
+		'Pam',
+		'Quinn',
+		'Ralph',
+		'Sally',
+		'Tom',
+		'Ursula',
+		'Victor',
+		'Wendy',
+		'Xavier',
+		'Yvonne'
+	],
+	datasets: [
+		{
+			label: 'My First dataset',
+			fill: true,
+			lineTension: 0.3,
+			backgroundColor: 'hsl(350,75%,58%)',
+			borderCapStyle: 'butt',
+			borderDash: [],
+			borderDashOffset: 0.0,
+			borderJoinStyle: 'miter',
+			pointBorderColor: 'rgb(205, 130,1 58)',
+			pointBackgroundColor: 'rgb(255, 255, 255)',
+			pointBorderWidth: 10,
+			pointHoverRadius: 5,
+			pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+			pointHoverBorderColor: 'rgba(220, 220, 220,1)',
+			pointHoverBorderWidth: 2,
+			pointRadius: 1,
+			pointHitRadius: 10,
+			data: [65, 59, 80, 81, 56, 55]
+		}
+	]
+};
