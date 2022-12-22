@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Card from '$lib/Card.svelte';
 	import Radar from '$lib/Radar.svelte';
 	import SinceForked from '$lib/SinceForked.svelte';
