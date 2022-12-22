@@ -1,34 +1,11 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 
-	const names = [
-		'All',
-		'Bob',
-		'Alice',
-		'Charlie',
-		'Dave',
-		'Eve',
-		'Frank',
-		'Grace',
-		'Helen',
-		'Ivan',
-		'Judy',
-		'Kevin',
-		'Linda',
-		'Mike',
-		'Nancy',
-		'Oscar',
-		'Pam',
-		'Quinn',
-		'Ralph',
-		'Sally',
-		'Tom',
-		'Ursula',
-		'Victor',
-		'Wendy',
-		'Xavier',
-		'Yvonne'
-	];
+	type Student = {
+		id: string;
+		login: string;
+	};
+	export let data: { students: Student[] };
 	/**
 	 * @type {string[]}
 	 */
@@ -56,7 +33,7 @@
 			{/each}
 		</select>
 		<ul class="text-lg text-slate-500">
-			{#each names as name}
+			{#each data.students as { login: name }}
 				<li class="py-1">{name}</li>
 			{/each}
 		</ul>
