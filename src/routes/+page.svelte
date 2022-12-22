@@ -10,6 +10,7 @@
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 	</section>
+	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork per challenge in table format</h3>
 		<p class="ml-2 text-lg text-slate-400">
@@ -21,6 +22,7 @@
 			<Table />
 		</figure>
 	</article>
+	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork</h3>
 		<p class="ml-2 text-lg text-slate-400">
@@ -30,7 +32,7 @@
 		</p>
 		<SinceForked />
 	</article>
-
+	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork per challenge</h3>
 		<p class="ml-2 text-lg text-slate-400">
