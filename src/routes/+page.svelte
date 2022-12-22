@@ -5,7 +5,7 @@
 </script>
 
 <section class="flex flex-col gap-10">
-	<section class="grid grid-cols-4 justify-items-center gap-6">
+	<section class="flex grid-cols-4 flex-col justify-items-center gap-6 md:grid">
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 	</section>
