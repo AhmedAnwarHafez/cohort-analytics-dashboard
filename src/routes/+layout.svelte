@@ -1,10 +1,37 @@
 <script>
 	import '../app.css';
 
+	const names = [
+		'All',
+		'Bob',
+		'Alice',
+		'Charlie',
+		'Dave',
+		'Eve',
+		'Frank',
+		'Grace',
+		'Helen',
+		'Ivan',
+		'Judy',
+		'Kevin',
+		'Linda',
+		'Mike',
+		'Nancy',
+		'Oscar',
+		'Pam',
+		'Quinn',
+		'Ralph',
+		'Sally',
+		'Tom',
+		'Ursula',
+		'Victor',
+		'Wendy',
+		'Xavier',
+		'Yvonne'
+	];
 	/**
 	 * @type {string[]}
 	 */
-	let names = [].concat(...new Array(11).fill(['Bob', 'Alice', 'Charlie']));
 	let cohorts = [
 		'Harakeke-2022',
 		'Kahikatea-2022',
