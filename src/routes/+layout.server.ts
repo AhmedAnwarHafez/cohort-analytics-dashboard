@@ -138,8 +138,7 @@ async function getCommittsByRepo(repo: Repo, org: Cohort) {
 				githubId: commit.author.user!.id,
 				githubLogin: commit.author.user!.login,
 				org: org.name,
-				repo: repo.name,
-				week: repo.week
+				repo: repo.name
 			}))
 	);
 }
