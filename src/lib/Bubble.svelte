@@ -18,7 +18,8 @@
 			{
 				x: student.daysSinceForked,
 				y: student.daysSpentOnChallenge,
-				r: 10
+				// r is the size of the bubble, 5 is the minimum size
+				r: 5 + student.totalCount
 			}
 		]
 	}));

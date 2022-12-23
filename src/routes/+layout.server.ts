@@ -14,6 +14,7 @@ export type StudentGithubAggregate = {
 	githubLogin: string;
 	daysSpentOnChallenge: number;
 	daysSinceForked: number;
+	totalCount: number;
 };
 
 const cohortsInfo = [
@@ -107,7 +108,8 @@ export async function load() {
 				githubId,
 				githubLogin,
 				daysSpentOnChallenge,
-				daysSinceForked
+				daysSinceForked,
+				totalCount: firstCommit.totalCount
 			};
 		}
 	);
@@ -178,6 +180,7 @@ async function getCommittsByRepo(repo: Repo, org: Cohort) {
 					'id' in commit.author.user
 			)
 			.flatMap((commit) => ({
+				totalCount: node.target.history.totalCount,
 				createdAt: new Date(rawResponse.data.repository.createdAt),
 				committedDate: new Date(commit.committedDate),
 				// ignore this eslint warning, it's a false positive
