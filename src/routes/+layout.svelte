@@ -6,9 +6,7 @@
 		login: string;
 	};
 	export let data: { students: Student[] };
-	/**
-	 * @type {string[]}
-	 */
+
 	let cohorts = [
 		'Harakeke-2022',
 		'Kahikatea-2022',
