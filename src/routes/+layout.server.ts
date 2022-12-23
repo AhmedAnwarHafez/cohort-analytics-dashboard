@@ -132,6 +132,7 @@ async function getCommittsByRepo(repo: Repo, org: Cohort) {
 					'id' in commit.author.user
 			)
 			.flatMap((commit) => ({
+				createdAt: new Date(rawResponse.data.repository.createdAt),
 				committedDate: new Date(commit.committedDate),
 				// ignore this eslint warning, it's a false positive
 				githubId: commit.author.user!.id,
