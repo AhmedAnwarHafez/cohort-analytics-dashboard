@@ -1,60 +1,34 @@
 <script lang="ts">
 	import { Bubble } from 'svelte-chartjs';
+	import hash from 'string-hash';
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
+	import type { StudentGithubAggregate } from 'src/routes/+layout.server';
 
 	ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale);
 
-	const data = {
-		labels: 'Bubble',
-		datasets: [
+	export let data: StudentGithubAggregate[];
+
+	const datasets = data.map((student) => ({
+		label: student.githubLogin,
+		// get a random color for each student
+		backgroundColor: `hsl(${hash(student.githubLogin) % 360}, 35%, 50%)`,
+		hoverBackgroundColor: `hsl(${hash(student.githubLogin) % 360}, 35%, 50%)`,
+		data: [
 			{
-				label: 'John',
-				data: [
-					{
-						x: 4.6,
-						y: 0.9,
-						r: 10
-					},
-					{
-						x: 4.6,
-						y: 5.9,
-						r: 10
-					}
-				],
-				backgroundColor: '#ff6384',
-				hoverBackgroundColor: '#ff6384'
-			},
-			{
-				label: 'Peter',
-				data: [
-					{
-						x: 24.2,
-						y: 0.8,
-						r: 10
-					}
-				],
-				backgroundColor: '#44e4ee',
-				hoverBackgroundColor: '#44e4ee'
-			},
-			{
-				label: 'Donald',
-				data: [
-					{
-						x: 7.4,
-						y: 3.8,
-						r: 13
-					}
-				],
-				backgroundColor: '#62088A',
-				hoverBackgroundColor: '#62088A'
+				x: student.daysSinceForked,
+				y: student.daysSpentOnChallenge,
+				r: 10
 			}
 		]
-	};
+	}));
 </script>
 
 <Bubble
-	{data}
+	data={{
+		labels: 'Bubble',
+		datasets
+	}}
 	options={{
 		responsive: true,
 		plugins: {
