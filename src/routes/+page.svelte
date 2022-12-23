@@ -15,7 +15,7 @@
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork per challenge in table format</h3>
-		<p class="ml-2 text-lg text-slate-400">
+		<p class="indent-8 text-lg text-slate-400">
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
 			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
 			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
@@ -27,7 +27,7 @@
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork per challenge in table format</h3>
-		<p class="ml-2 text-lg text-slate-400">
+		<p class="indent-8 text-lg text-slate-400">
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
 			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
 			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
@@ -39,7 +39,7 @@
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork</h3>
-		<p class="ml-2 text-lg text-slate-400">
+		<p class="indent-8 text-lg text-slate-400">
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
 			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
 			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
@@ -49,7 +49,7 @@
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<h3 class="text-lg text-slate-300">Days passed since fork per challenge</h3>
-		<p class="ml-2 text-lg text-slate-400">
+		<p class="indent-8 text-lg text-slate-400">
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
 			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
 			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
