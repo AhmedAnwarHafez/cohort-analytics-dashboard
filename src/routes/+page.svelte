@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Card from '$lib/Card.svelte';
 	import Radar from '$lib/Radar.svelte';
 	import SinceForked from '$lib/SinceForked.svelte';
@@ -20,7 +21,7 @@
 			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
 		</p>
 		<figure class="mt-5">
-			<Bubble />
+			<Bubble data={$page.data.githubAggregates} />
 		</figure>
 	</article>
 	<hr class="border-1 block h-1 border-slate-700" />
