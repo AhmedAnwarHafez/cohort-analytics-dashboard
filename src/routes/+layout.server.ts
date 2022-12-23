@@ -7,6 +7,15 @@ import { responseStudents } from '../lib/data/students';
 
 type Repo = typeof repos[0];
 type Cohort = typeof cohortsInfo[0];
+export type StudentGithubAggregate = {
+	org: string;
+	repo: string;
+	githubId: string;
+	githubLogin: string;
+	daysSpentOnChallenge: number;
+	daysSinceForked: number;
+};
+
 const cohortsInfo = [
 	{
 		name: 'horoeka-2022',
@@ -77,27 +86,31 @@ export async function load() {
 		(commit) => `${commit.githubLogin}-${commit.repo}`
 	);
 	// aggregate and calculate the difference between the first and last commit
-	const githubAggregates = Object.values(groupedCommits).map((commits) => {
-		const firstCommit = commits[0];
-		const lastCommit = commits[commits.length - 1];
-		const daysSpentOnChallenge = Math.abs(
-			Math.round(
-				(lastCommit.committedDate.getTime() - firstCommit.committedDate.getTime()) / 86400000
-			)
-		);
-		const daysSinceForked = Math.abs(
-			Math.round((firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000)
-		);
-		const { githubId, githubLogin, repo, org } = firstCommit;
-		return {
-			org,
-			repo,
-			githubId,
-			githubLogin,
-			daysSpentOnChallenge,
-			daysSinceForked
-		};
-	});
+	const githubAggregates: StudentGithubAggregate[] = Object.values(groupedCommits).map(
+		(commits) => {
+			const firstCommit = commits[0];
+			const lastCommit = commits[commits.length - 1];
+			const daysSpentOnChallenge = Math.abs(
+				Math.round(
+					(lastCommit.committedDate.getTime() - firstCommit.committedDate.getTime()) / 86400000
+				)
+			);
+			const daysSinceForked = Math.abs(
+				Math.round(
+					(firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000
+				)
+			);
+			const { githubId, githubLogin, repo, org } = firstCommit;
+			return {
+				org,
+				repo,
+				githubId,
+				githubLogin,
+				daysSpentOnChallenge,
+				daysSinceForked
+			};
+		}
+	);
 
 	return {
 		students,
