@@ -77,7 +77,7 @@
 				beginAtZero: true,
 				title: {
 					display: true,
-					text: 'Days to complete',
+					text: 'Days spent to complete challenge',
 					color: 'hsl(0, 0%, 80%)'
 				}
 			},
@@ -85,7 +85,7 @@
 				beginAtZero: true,
 				title: {
 					display: true,
-					text: 'Days since fored',
+					text: 'Days since challenge forked',
 					color: 'hsl(0, 0%, 80%)'
 				}
 			}
