@@ -69,8 +69,39 @@ export async function load() {
 		return commit;
 	});
 
+	// sort commits by date
+	const sortedCommits = _.sortBy(studentsCommits, 'committedDate');
+	// group commits by student and repo
+	const groupedCommits = _.groupBy(
+		sortedCommits,
+		(commit) => `${commit.githubLogin}-${commit.repo}`
+	);
+	// aggregate and calculate the difference between the first and last commit
+	const githubAggregates = Object.values(groupedCommits).map((commits) => {
+		const firstCommit = commits[0];
+		const lastCommit = commits[commits.length - 1];
+		const daysSpentOnChallenge = Math.abs(
+			Math.round(
+				(lastCommit.committedDate.getTime() - firstCommit.committedDate.getTime()) / 86400000
+			)
+		);
+		const daysSinceForked = Math.abs(
+			Math.round((firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000)
+		);
+		const { githubId, githubLogin, repo, org } = firstCommit;
+		return {
+			org,
+			repo,
+			githubId,
+			githubLogin,
+			daysSpentOnChallenge,
+			daysSinceForked
+		};
+	});
+
 	return {
-		students
+		students,
+		githubAggregates
 	};
 }
 
