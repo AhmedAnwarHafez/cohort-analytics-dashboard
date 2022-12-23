@@ -54,6 +54,8 @@ export async function load() {
 	if (!cohortInfo) {
 		throw error(404, `Could not find cohort ${selectedCohort}`);
 	}
+
+	// get students commit info for each repo
 	const commits = (
 		await Promise.all(repos.map(async (repo) => await getCommittsByRepo(repo, cohortInfo)))
 	).flat();
