@@ -5,7 +5,9 @@
 
 <article
 	class="
-	col-span-2 flex
+	col-span-2
+	flex
+	w-72
 	flex-col 
 	gap-3
 	rounded-lg
