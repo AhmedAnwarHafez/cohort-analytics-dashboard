@@ -2,9 +2,10 @@
 import { GITHUB_TOKEN } from '$env/static/private';
 import { rawResponse } from '$lib/data/commits';
 import { rawReposResponse } from '$lib/data/repos';
-import { error } from '@sveltejs/kit';
+import { error, type ServerLoad } from '@sveltejs/kit';
 import _ from 'lodash';
 import { responseStudents } from '../lib/data/students';
+import type { RequestEvent } from './$types';
 
 export type Repo = {
 	name: string;
@@ -28,12 +29,30 @@ const cohortsInfo = [
 	}
 ];
 
-export async function load() {
-	// hard code cohort name for now, this will be passed from a dropdown
-	const selectedCohort = 'horoeka-2022';
+export async function load({ url }: RequestEvent) {
+	let repos: Repo[] = [];
 
-	const repos = await getReposByOrg(selectedCohort);
-	const students = await getMembersByOrg(selectedCohort);
+	if (!url.searchParams.has('cohort')) {
+		return {
+			repos: [],
+			students: [],
+			githubAggregates: []
+		};
+	}
+
+	const selectedCohort = url.searchParams.get('cohort');
+	repos = await getReposByOrg(selectedCohort!);
+
+	if (!url.searchParams.has('repos')) {
+		return {
+			repos: repos,
+			students: [],
+			githubAggregates: []
+		};
+	}
+	const selectedRepos: string[] = url.searchParams.getAll('repos');
+
+	const students = await getMembersByOrg(selectedCohort!);
 
 	const cohortInfo = cohortsInfo.find((cohort) => cohort.name === selectedCohort);
 	if (!cohortInfo) {
@@ -42,7 +61,7 @@ export async function load() {
 
 	// get students commit info for each repo
 	const commits = (
-		await Promise.all(repos.map(async (repo) => await getCommittsByRepo(repo.name, cohortInfo)))
+		await Promise.all(selectedRepos.map(async (repo) => await getCommittsByRepo(repo, cohortInfo)))
 	).flat();
 
 	// map over commits and add student info
