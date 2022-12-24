@@ -27,9 +27,11 @@
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
-<main class="container m-auto flex">
-	<aside class="ml-12 flex flex-none basis-1/6 flex-col items-start gap-4">
-		<h1 class="m-10 ml-0 font-display text-3xl text-slate-400">Cohort Analytics Dashboard</h1>
+<main class="container m-auto flex flex-col items-center gap-4 lg:flex-row lg:items-start">
+	<aside class="ml-12 flex flex-none basis-1/6 flex-col items-center gap-4 ">
+		<h1 class="m-10 ml-0 text-center font-display text-3xl text-slate-400">
+			Cohort Analytics Dashboard
+		</h1>
 
 		<form method="get">
 			<select
@@ -80,7 +82,7 @@
 			</button>
 		</form>
 	</aside>
-	<section class="col-span-11 flex w-1/6 grow items-center justify-center">
+	<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden ">
 		{#if data.students.length > 0}
 			<article class="mt-10 ml-5" in:slide>
 				<slot />
