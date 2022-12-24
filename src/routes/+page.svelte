@@ -14,6 +14,7 @@
 </script>
 
 <section class="flex flex-col gap-10">
+	<section class="flex flex-wrap gap-4">
 		<Card value={orderedStudents.length} description={'Total Students'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
