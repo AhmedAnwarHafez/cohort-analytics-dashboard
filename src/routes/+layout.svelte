@@ -3,6 +3,7 @@
 	import type { Repo } from './+layout.server';
 	import { page } from '$app/stores';
 	import { slide } from 'svelte/transition';
+	import Nav from '$lib/Nav.svelte';
 
 	export let data: { students: Student[]; repos: Repo[] };
 	// read query params from the URL
@@ -27,38 +28,8 @@
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
-<nav
-	class="flex flex-row items-center justify-between border-b border-b-slate-500 bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900"
->
-	<h1 class="pl-4 text-center font-display text-3xl text-slate-400 lg:text-left">
-		Cohort Analytics Dashboard
-	</h1>
-	<!-- a nav bar with three links, Github, Trello and Login -->
-	<ul class="flex flex-row  justify-end gap-4 space-x-6  p-4">
-		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span class="material-symbols-outlined">home</span>
-				<span>Home</span>
-			</a>
-		</li>
-		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span>Github</span>
-			</a>
-		</li>
-		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span>Trello</span>
-			</a>
-		</li>
-		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span class="material-symbols-outlined">login</span>
-				<span>Login</span>
-			</a>
-		</li>
-	</ul>
-</nav>
+
+<Nav />
 <main class="container m-auto flex flex-col items-center gap-4 lg:flex-row lg:items-start">
 	<aside class="flex flex-none basis-1/6 flex-col items-center gap-4 p-4 lg:pt-10 ">
 		<form method="get">
