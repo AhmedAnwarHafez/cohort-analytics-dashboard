@@ -1,18 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import type { Repo } from './+layout.server';
+	import type { Repo, Student } from './+layout.server';
 	import { page } from '$app/stores';
 	import { slide } from 'svelte/transition';
 	import Nav from '$lib/Nav.svelte';
 
 	export let data: { students: Student[]; repos: Repo[] };
+
 	// read query params from the URL
-
-	type Student = {
-		id: string;
-		login: string;
-	};
-
 	$: selectedRepos = $page.url.searchParams.getAll('repos');
 	let selectedCohort: string;
 	let cohorts = [

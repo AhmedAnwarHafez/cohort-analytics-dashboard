@@ -7,6 +7,10 @@ import _ from 'lodash';
 import { responseStudents } from '../lib/data/students';
 import type { RequestEvent } from './$types';
 
+export type Student = {
+	id: string;
+	login: string;
+};
 export type Repo = {
 	name: string;
 	createdAt: Date;
@@ -143,6 +147,7 @@ async function getMembersByOrg(org: string) {
 
 	return responseStudents.data.organization.membersWithRole.edges
 		.filter((edge) => edge.role === 'MEMBER')
+		.filter((edge) => edge.node.login !== 'toolseda')
 		.flatMap((edge) => edge.node);
 }
 
