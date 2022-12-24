@@ -1,4 +1,5 @@
 <script lang="ts">
+	import _ from 'lodash';
 	import { page } from '$app/stores';
 	import Card from '$lib/Card.svelte';
 	import Radar from '$lib/Radar.svelte';
@@ -6,13 +7,24 @@
 	import Table from '$lib/Table.svelte';
 	import Bubble from '$lib/Bubble.svelte';
 	import Paragraph from '$lib/Paragraph.svelte';
+	import type { Student } from './+layout.server';
+
+	let students: Student[] = $page.data.students;
+	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
 
 <section class="flex flex-col gap-10">
-	<section class="flex grid-cols-4 flex-col justify-items-center gap-6 md:grid">
+		<Card value={orderedStudents.length} description={'Total Students'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 		<Card value={2.3} description={'Average days taken to start a challenge'} />
 	</section>
+	<article>
+		<ol class="flex list-decimal flex-col items-center justify-center">
+			{#each orderedStudents as { login }}
+				<li class="text-left text-lg text-slate-400">{login}</li>
+			{/each}
+		</ol>
+	</article>
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<Paragraph
