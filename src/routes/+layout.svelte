@@ -27,7 +27,7 @@
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
-<main class="m-auto flex">
+<main class="container m-auto flex">
 	<aside class="ml-12 flex flex-none basis-1/6 flex-col items-start gap-4">
 		<h1 class="m-10 ml-0 font-display text-3xl text-slate-400">Cohort Analytics Dashboard</h1>
 
