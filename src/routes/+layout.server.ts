@@ -1,21 +1,17 @@
 // import github token from .env file as a static value
+import _ from 'lodash';
+import { z } from 'zod';
 import { GITHUB_TOKEN } from '$env/static/private';
 import { rawResponse } from '$lib/data/commits';
 import { rawReposResponse } from '$lib/data/repos';
 import { error, type ServerLoad } from '@sveltejs/kit';
-import _ from 'lodash';
-import { responseStudents } from '../lib/data/students';
 import type { RequestEvent } from './$types';
 
-export type Student = {
-	id: string;
-	login: string;
-};
+export type Student = Awaited<ReturnType<typeof getMembersByOrg>>[0];
 export type Repo = {
 	name: string;
 	createdAt: Date;
 };
-type Cohort = typeof cohortsInfo[0];
 export type StudentGithubAggregate = {
 	org: string;
 	repo: string;
@@ -25,13 +21,6 @@ export type StudentGithubAggregate = {
 	daysSinceForked: number;
 	totalCount: number;
 };
-
-const cohortsInfo = [
-	{
-		name: 'horoeka-2022',
-		startDate: '2022-10-09T00:00:00Z'
-	}
-];
 
 export async function load({ url }: RequestEvent) {
 	let repos: Repo[] = [];
@@ -44,8 +33,12 @@ export async function load({ url }: RequestEvent) {
 		};
 	}
 
-	const selectedCohort = url.searchParams.get('cohort');
-	repos = await getReposByOrg(selectedCohort!);
+	const selectedCohortWithDate = url.searchParams.get('cohort');
+	// split cohort name and date by the first |, then put them together in an object
+	const selectedCohort = selectedCohortWithDate!.split('|')[0];
+	const bootcampStart = selectedCohortWithDate!.split('|')[1];
+
+	repos = await getReposByOrg(selectedCohort);
 
 	if (!url.searchParams.has('repos')) {
 		return {
@@ -56,16 +49,15 @@ export async function load({ url }: RequestEvent) {
 	}
 	const selectedRepos: string[] = url.searchParams.getAll('repos');
 
-	const students = await getMembersByOrg(selectedCohort!);
-
-	const cohortInfo = cohortsInfo.find((cohort) => cohort.name === selectedCohort);
-	if (!cohortInfo) {
-		throw error(404, `Could not find cohort ${selectedCohort}`);
-	}
+	const students = await getMembersByOrg(selectedCohort);
 
 	// get students commit info for each repo
 	const commits = (
-		await Promise.all(selectedRepos.map(async (repo) => await getCommittsByRepo(repo, cohortInfo)))
+		await Promise.all(
+			selectedRepos.map(
+				async (repo) => await getCommittsByRepo(repo, selectedCohort, bootcampStart)
+			)
+		)
 	).flat();
 
 	// map over commits and add student info
@@ -122,7 +114,7 @@ export async function load({ url }: RequestEvent) {
 async function getMembersByOrg(org: string) {
 	const query = `
 {
-  organization(login: "horoeka-2022") {
+  organization(login: "${org}") {
     membersWithRole(first: 50) {
       edges {
         role
@@ -136,16 +128,36 @@ async function getMembersByOrg(org: string) {
 }
 `;
 
-	// const response = await fetch('https://api.github.com/graphql', {
-	// 	method: 'POST',
-	// 	body: JSON.stringify({ query }),
-	// 	headers: {
-	// 		Authorization: `Bearer ${GITHUB_TOKEN}`
-	// 	}
-	// });
-	// const data = await response.json();
+	const jsonResponse = await fetch('https://api.github.com/graphql', {
+		method: 'POST',
+		body: JSON.stringify({ query }),
+		headers: {
+			Authorization: `Bearer ${GITHUB_TOKEN}`
+		}
+	});
+	const response = await jsonResponse.json();
 
-	return responseStudents.data.organization.membersWithRole.edges
+	const responseData = z
+		.object({
+			data: z.object({
+				organization: z.object({
+					membersWithRole: z.object({
+						edges: z.array(
+							z.object({
+								role: z.string(),
+								node: z.object({
+									id: z.string(),
+									login: z.string()
+								})
+							})
+						)
+					})
+				})
+			})
+		})
+		.parse(response);
+
+	return responseData.data.organization.membersWithRole.edges
 		.filter((edge) => edge.role === 'MEMBER')
 		.filter((edge) => edge.node.login !== 'toolseda')
 		.flatMap((edge) => edge.node);
@@ -166,23 +178,44 @@ async function getReposByOrg(org: string) {
   }
 }`;
 
-	// const response = await fetch('https://api.github.com/graphql', {
-	// 	method: 'POST',
-	// 	body: JSON.stringify({ query }),
-	// 	headers: {
-	// 		Authorization: `Bearer ${GITHUB_TOKEN}`
-	// 	}
-	// });
-	// const data = await response.json();
-	return rawReposResponse.data.organization.repositories.edges.map((edge) => ({
+	const jsonResponse = await fetch('https://api.github.com/graphql', {
+		method: 'POST',
+		body: JSON.stringify({ query }),
+		headers: {
+			Authorization: `Bearer ${GITHUB_TOKEN}`
+		}
+	});
+
+	const response = await jsonResponse.json();
+
+	const data = z
+		.object({
+			data: z.object({
+				organization: z.object({
+					repositories: z.object({
+						edges: z.array(
+							z.object({
+								node: z.object({
+									name: z.string(),
+									createdAt: z.string()
+								})
+							})
+						)
+					})
+				})
+			})
+		})
+		.parse(response);
+
+	return data.data.organization.repositories.edges.map((edge) => ({
 		name: edge.node.name,
 		createdAt: new Date(edge.node.createdAt)
 	}));
 }
 
-async function getCommittsByRepo(repoName: string, org: Cohort) {
+async function getCommittsByRepo(repoName: string, orgName: string, startDate: string) {
 	// add 9 weeks to org.startDate
-	const bootcampEndDate = new Date(org.startDate);
+	const bootcampEndDate = new Date(startDate);
 	bootcampEndDate.setDate(bootcampEndDate.getDate() + 68);
 
 	// const query = makeQuery(repo.name, org.name, forkedDate, bootcampEndDate);
@@ -212,7 +245,7 @@ async function getCommittsByRepo(repoName: string, org: Cohort) {
 				// ignore this eslint warning, it's a false positive
 				githubId: commit.author.user!.id,
 				githubLogin: commit.author.user!.login,
-				org: org.name,
+				org: orgName,
 				repo: repoName
 			}))
 	);

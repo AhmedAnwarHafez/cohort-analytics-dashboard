@@ -11,11 +11,26 @@
 	$: selectedRepos = $page.url.searchParams.getAll('repos');
 	let selectedCohort: string;
 	let cohorts = [
-		'harakeke-2022',
-		'kahikatea-2022',
-		'matai-2022',
-		'pohutukawa-2022',
-		'horoeka-2022'
+		{
+			name: 'harakeke-2022',
+			startDate: '2022-01-03T00:00:00Z'
+		},
+		{
+			name: 'kahikatea-2022',
+			startDate: '2022-03-14T00:00:00Z'
+		},
+		{
+			name: 'matai-2022',
+			startDate: '2022-05-23T00:00:00Z'
+		},
+		{
+			name: 'pohutukawa-2022',
+			startDate: '2022-08-01T00:00:00Z'
+		},
+		{
+			name: 'horoeka-2022',
+			startDate: '2022-10-09T00:00:00Z'
+		}
 	];
 </script>
 
@@ -36,8 +51,8 @@
 				bind:value={selectedCohort}
 			>
 				<option value="">--COHORTS--</option>
-				{#each cohorts as cohort}
-					<option value={cohort}>{cohort}</option>
+				{#each cohorts as { name, startDate }}
+					<option value={`${name}|${startDate}`}>{name}</option>
 				{/each}
 			</select>
 			<ul class="flex flex-col gap-4">
