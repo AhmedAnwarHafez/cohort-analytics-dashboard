@@ -27,17 +27,43 @@
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
+<nav class="flex flex-row items-center justify-between bg-slate-900">
+	<h1 class="pl-4 text-center font-display text-3xl text-slate-400 lg:text-left">
+		Cohort Analytics Dashboard
+	</h1>
+	<!-- a nav bar with three links, Github, Trello and Login -->
+	<ul class="flex flex-row  justify-end gap-4 space-x-6 bg-slate-900 p-4">
+		<li>
+			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
+				<span class="material-symbols-outlined">home</span>
+				<span>Home</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
+				<span>Github</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
+				<span>Trello</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
+				<span class="material-symbols-outlined">login</span>
+				<span>Login</span>
+			</a>
+		</li>
+	</ul>
+</nav>
 <main class="container m-auto flex flex-col items-center gap-4 lg:flex-row lg:items-start">
-	<aside class="ml-12 flex flex-none basis-1/6 flex-col items-center gap-4 ">
-		<h1 class="m-10 ml-0 text-center font-display text-3xl text-slate-400">
-			Cohort Analytics Dashboard
-		</h1>
-
+	<aside class="flex flex-none basis-1/6 flex-col items-center gap-4 p-4 lg:pt-10 ">
 		<form method="get">
 			<select
 				name="cohort"
 				id="cohort"
-				class="mb-2 w-40 rounded-lg bg-slate-700 p-2 text-slate-300"
+				class="mb-2 w-full rounded-lg bg-slate-700 p-2 text-slate-300"
 				required
 				bind:value={selectedCohort}
 			>
@@ -49,14 +75,14 @@
 			<ul class="flex flex-col gap-4">
 				{#each data.repos as { name }}
 					<li>
-						<label for={name} class="flex items-center gap-1 text-2xl text-slate-400">
+						<label for={name} class="mr-3 flex items-center gap-1 text-2xl text-slate-400">
 							<!-- <input type="hidden" name="id" value={name} /> -->
 							{#if selectedRepos.includes(name)}
 								<input
 									type="checkbox"
 									name="repos"
 									id={name}
-									class="h-6 w-6  bg-slate-100 text-green-500 focus:ring-slate-500"
+									class="mr-2 h-6 w-6 bg-slate-100 text-green-500 focus:ring-slate-500"
 									value={name}
 									checked={true}
 								/>
@@ -65,7 +91,7 @@
 									type="checkbox"
 									name="repos"
 									id={name}
-									class="h-6 w-6  bg-slate-100 text-green-500 focus:ring-slate-500"
+									class="mr-2 h-6 w-6 bg-slate-100 text-green-500 focus:ring-slate-500"
 									value={name}
 								/>
 							{/if}
@@ -82,9 +108,9 @@
 			</button>
 		</form>
 	</aside>
-	<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden ">
+	<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
 		{#if data.students.length > 0}
-			<article class="mt-10 ml-5" in:slide>
+			<article class="p-10" in:slide>
 				<slot />
 			</article>
 		{:else}
