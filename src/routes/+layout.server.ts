@@ -3,8 +3,6 @@ import _ from 'lodash';
 import { z } from 'zod';
 import { GITHUB_TOKEN } from '$env/static/private';
 import { rawResponse } from '$lib/data/commits';
-import { rawReposResponse } from '$lib/data/repos';
-import { error, type ServerLoad } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 
 export type Student = Awaited<ReturnType<typeof getMembersByOrg>>[0];
