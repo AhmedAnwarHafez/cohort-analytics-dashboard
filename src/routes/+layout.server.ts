@@ -52,9 +52,7 @@ export async function load({ url }: RequestEvent) {
 	// get students commit info for each repo
 	const commits = (
 		await Promise.all(
-			selectedRepos.map(
-				async (repo) => await getCommittsByRepo(repo, selectedCohort, bootcampStart)
-			)
+			selectedRepos.map(async (repo) => await getCommitsByRepo(repo, selectedCohort, bootcampStart))
 		)
 	).flat();
 
@@ -211,7 +209,7 @@ async function getReposByOrg(org: string) {
 	}));
 }
 
-async function getCommittsByRepo(repoName: string, orgName: string, startDate: string) {
+async function getCommitsByRepo(repoName: string, orgName: string, startDate: string) {
 	// add 9 weeks to org.startDate
 	const bootcampEndDate = new Date(startDate);
 	bootcampEndDate.setDate(bootcampEndDate.getDate() + 68);
