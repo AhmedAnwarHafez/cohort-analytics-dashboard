@@ -32,7 +32,7 @@ export async function load({ url }: RequestEvent) {
 	}
 
 	const selectedCohortWithDate = url.searchParams.get('cohort');
-	// split cohort name and date by the first |, then put them together in an object
+	// split cohort name and date by the first |
 	const selectedCohort = selectedCohortWithDate!.split('|')[0];
 	const bootcampStart = selectedCohortWithDate!.split('|')[1];
 
