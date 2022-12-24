@@ -80,13 +80,13 @@
 			</button>
 		</form>
 	</aside>
-	<section class="col-span-11 mt-5 mr-5 w-1/6 grow">
+	<section class="col-span-11 flex w-1/6 grow items-center justify-center">
 		{#if data.students.length > 0}
-			<article in:slide>
+			<article class="mt-10 ml-5" in:slide>
 				<slot />
 			</article>
 		{:else}
-			<p class="text-center text-6xl text-slate-200">Use the filter</p>
+			<p class="font-handwritten text-6xl italic text-slate-500">&lt-- use filters</p>
 		{/if}
 	</section>
 </main>
