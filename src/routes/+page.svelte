@@ -1,104 +1,61 @@
 <script lang="ts">
 	import _ from 'lodash';
 	import { page } from '$app/stores';
-	import Card from '$lib/Card.svelte';
-	import Radar from '$lib/Radar.svelte';
-	import SinceForked from '$lib/SinceForked.svelte';
-	import Table from '$lib/Table.svelte';
-	import Bubble from '$lib/Bubble.svelte';
-	import Paragraph from '$lib/Paragraph.svelte';
-	import type { Student, StudentGithubAggregate } from './+layout.server';
+
+	import Nav from '$lib/Nav.svelte';
+	import type { Repo, Student, StudentGithubAggregate } from './+page.server';
+	import Github from '$lib/Github.svelte';
+	import '../app.css';
+	import Sidebar from '$lib/Sidebar.svelte';
+
+	export let data: { students: Student[]; repos: Repo[] };
+
+	// read query params from the URL
+	$: selectedRepos = $page.url.searchParams.getAll('repos');
+	let selectedCohort: string;
+	let cohorts = [
+		{
+			name: 'harakeke-2022',
+			startDate: '2022-01-03T00:00:00Z'
+		},
+		{
+			name: 'kahikatea-2022',
+			startDate: '2022-03-14T00:00:00Z'
+		},
+		{
+			name: 'matai-2022',
+			startDate: '2022-05-23T00:00:00Z'
+		},
+		{
+			name: 'pohutukawa-2022',
+			startDate: '2022-08-01T00:00:00Z'
+		},
+		{
+			name: 'horoeka-2022',
+			startDate: '2022-10-09T00:00:00Z'
+		}
+	];
 
 	let students: Student[] = $page.data.students;
 	$: studentsAggregates = ($page.data.githubAggregates as StudentGithubAggregate[]) || [];
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
 
-<section class="flex flex-col gap-10">
-	<section class="flex flex-wrap items-stretch  justify-center gap-4">
-		<Card value={orderedStudents.length} description={'Total Students'} />
+<link
+	rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
+/>
+
+<Nav />
+<main class="container m-auto flex flex-col items-center gap-4 lg:flex-row lg:items-start">
+	<Sidebar repos={data.repos} {selectedCohort} {selectedRepos} {cohorts} />
+	<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
+		{#if data.students.length > 0}
+			<article class="p-10">
+				<Github {orderedStudents} {studentsAggregates} />
+			</article>
+		{:else}
+			<p class="font-handwritten text-6xl italic text-slate-500">&lt-- use filters</p>
+		{/if}
 	</section>
-	<article class="flex flex-col items-center justify-center ">
-		<ol class="list-decimal text-left">
-			{#each orderedStudents as { login }}
-				<li class=" text-lg text-slate-400">{login}</li>
-			{/each}
-		</ol>
-	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
-	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<Bubble data={studentsAggregates} />
-	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
-	<article>
-		<Paragraph
-			title="Days spent on challenge per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<figure class="mt-5">
-			<Table data={studentsAggregates} column="daysSpentOnChallenge" />
-		</figure>
-	</article>
-	<article>
-		<Paragraph
-			title="Days passed since fork per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<figure class="mt-5">
-			<Table data={studentsAggregates} column="daysSinceForked" />
-		</figure>
-	</article>
-	<article>
-		<Paragraph
-			title="Total commits per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<figure class="mt-5">
-			<Table data={studentsAggregates} column="totalCount" />
-		</figure>
-	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
-	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<SinceForked />
-	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
-	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
-		<Radar />
-	</article>
-</section>
+</main>

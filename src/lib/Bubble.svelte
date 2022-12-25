@@ -3,7 +3,7 @@
 	import hash from 'string-hash';
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
-	import type { StudentGithubAggregate } from 'src/routes/+layout.server';
+	import type { StudentGithubAggregate } from 'src/routes/+page.server';
 	import { groupBy } from 'lodash';
 
 	ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale);
@@ -24,7 +24,7 @@
 						x: student.daysSinceForked,
 						y: student.daysSpentOnChallenge,
 						// r is the size of the bubble, 5 is the minimum size
-						r: 5 //+ student.totalCount
+						r: 10 //+ student.totalCount
 					}
 				]
 			}));
