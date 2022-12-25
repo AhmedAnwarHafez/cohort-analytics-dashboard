@@ -12,8 +12,6 @@
 	let students: Student[] = $page.data.students;
 	$: studentsAggregates = ($page.data.githubAggregates as StudentGithubAggregate[]) || [];
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
-
-	$: console.log(studentsAggregates);
 </script>
 
 <section class="flex flex-col gap-10">
