@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import { z } from 'zod';
 import { GITHUB_TOKEN } from '$env/static/private';
-import { rawResponse } from '$lib/data/commits';
 import type { RequestEvent } from './$types';
 
 export type Student = Awaited<ReturnType<typeof getMembersByOrg>>[0];
@@ -105,7 +104,8 @@ export async function load({ url }: RequestEvent) {
 			};
 		}
 	);
-	console.table(githubAggregates);
+
+	console.log(githubAggregates);
 
 	return {
 		repos: availableRepos,
@@ -243,6 +243,7 @@ async function getCommitsByRepo(
 		.object({
 			data: z.object({
 				repository: z.object({
+					createdAt: z.string(),
 					refs: z.object({
 						nodes: z.array(
 							z.object({
@@ -286,7 +287,7 @@ async function getCommitsByRepo(
 			)
 			.flatMap((commit) => ({
 				totalCount: node.target.history.totalCount,
-				createdAt: new Date(rawResponse.data.repository.createdAt),
+				createdAt: new Date(data.data.repository.createdAt),
 				committedDate: new Date(commit.committedDate),
 				// ignore this eslint warning, it's a false positive
 				githubId: commit.author.user!.id || 'unknown',
