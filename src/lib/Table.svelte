@@ -3,20 +3,20 @@
 	import type { StudentGithubAggregate } from 'src/routes/+layout.server';
 
 	export let data: StudentGithubAggregate[];
+	export let column: string;
+
 	$: students = _.sortBy(data, ['githubLogin']);
 	$: uniqueStudents = _.uniqBy(students, 'githubLogin');
 	$: groupedByRepo = _.groupBy(students, 'repo');
 
 	// group by repo and then by student then calculate the average
 	$: groupedByRepoAndStudent = _.mapValues(groupedByRepo, (students) =>
-		_.mapValues(_.groupBy(students, 'githubLogin'), (student) =>
-			_.meanBy(student, 'daysSpentOnChallenge')
-		)
+		_.mapValues(_.groupBy(students, 'githubLogin'), (student) => _.meanBy(student, column))
 	);
 
 	// group by student and then by repo
 	$: groupedByStudentAndRepo = _.mapValues(_.groupBy(students, 'githubLogin'), (students) =>
-		_.mapValues(_.groupBy(students, 'repo'), (student) => _.meanBy(student, 'daysSpentOnChallenge'))
+		_.mapValues(_.groupBy(students, 'repo'), (student) => _.meanBy(student, column))
 	);
 </script>
 

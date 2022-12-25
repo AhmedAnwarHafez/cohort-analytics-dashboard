@@ -44,7 +44,7 @@
 	<hr class="border-1 block h-1 border-slate-700" />
 	<article>
 		<Paragraph
-			title="Days passed since fork per challenge in table format"
+			title="Days spent on challenge per student"
 			paragraph={`
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
 			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
@@ -52,7 +52,33 @@
 		`}
 		/>
 		<figure class="mt-5">
-			<Table data={studentsAggregates} />
+			<Table data={studentsAggregates} column="daysSpentOnChallenge" />
+		</figure>
+	</article>
+	<article>
+		<Paragraph
+			title="Days passed since fork per student"
+			paragraph={`
+			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
+			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
+			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
+		`}
+		/>
+		<figure class="mt-5">
+			<Table data={studentsAggregates} column="daysSinceForked" />
+		</figure>
+	</article>
+	<article>
+		<Paragraph
+			title="Total commits per student"
+			paragraph={`
+			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
+			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
+			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
+		`}
+		/>
+		<figure class="mt-5">
+			<Table data={studentsAggregates} column="totalCount" />
 		</figure>
 	</article>
 	<hr class="border-1 block h-1 border-slate-700" />
