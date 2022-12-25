@@ -7,9 +7,10 @@
 	import Table from '$lib/Table.svelte';
 	import Bubble from '$lib/Bubble.svelte';
 	import Paragraph from '$lib/Paragraph.svelte';
-	import type { Student } from './+layout.server';
+	import type { Student, StudentGithubAggregate } from './+layout.server';
 
 	let students: Student[] = $page.data.students;
+	$: studentsAggregates = ($page.data.githubAggregates as StudentGithubAggregate[]) || [];
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
 
@@ -37,7 +38,7 @@
 		`}
 		/>
 		<figure class="mt-5">
-			<Bubble data={$page.data.githubAggregates} />
+			<Bubble data={studentsAggregates} />
 		</figure>
 	</article>
 	<hr class="border-1 block h-1 border-slate-700" />
@@ -51,7 +52,7 @@
 		`}
 		/>
 		<figure class="mt-5">
-			<Table />
+			<Table data={studentsAggregates} />
 		</figure>
 	</article>
 	<hr class="border-1 block h-1 border-slate-700" />
