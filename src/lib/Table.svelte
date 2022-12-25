@@ -35,9 +35,13 @@
 			<div class="table-row hover:bg-slate-600 hover:text-slate-100">
 				<div class="table-cell">{githubLogin}</div>
 				{#each Object.keys(groupedByRepo) as challenge}
-					<div class="table-cell text-center">
-						{groupedByRepoAndStudent[challenge][githubLogin]}
-					</div>
+					{#if !groupedByRepoAndStudent[challenge][githubLogin]}
+						<div class="table-cell text-center">-</div>
+					{:else}
+						<div class="table-cell text-center">
+							{groupedByRepoAndStudent[challenge][githubLogin]}
+						</div>
+					{/if}
 				{/each}
 				<div class="table-cell text-center">
 					{_.mean(Object.values(groupedByStudentAndRepo[githubLogin])).toFixed(2)}
