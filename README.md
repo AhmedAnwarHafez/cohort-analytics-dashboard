@@ -1,38 +1,28 @@
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+## Installation
+```sh
+npm install
+or
+pnpm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Storybooks
+Suppose you want to test a component called `Card`.
 
-To create a production version of your app:
+```html
+<script context="module" lang="ts">
+	import { Canvas, Frame } from '@leveluptuts/bookit';
+	import Card from './Card.svelte';
 
-```bash
-npm run build
+	export const parent = 'components';
+	export const title = 'parent';
+</script>
+
+<Canvas>
+	<Frame title="Basic Card">
+		<Card description="some description" value={99} />
+	</Frame>
+</Canvas>
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+In the browser, navigate to `/books/[parent]-[title]`, in our case, the route is `/book/components-parent`
