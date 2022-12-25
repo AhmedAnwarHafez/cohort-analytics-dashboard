@@ -17,8 +17,8 @@
 			.map((student) => ({
 				label: student.githubLogin,
 				// get a random color for each student
-				backgroundColor: `hsl(${hash(student.githubLogin) % 360}, 35%, 50%)`,
-				hoverBackgroundColor: `hsl(${hash(student.githubLogin) % 360}, 35%, 50%)`,
+				backgroundColor: `hsl(${hash(student.githubLogin) % 360}, 45%, 70%)`,
+				hoverBackgroundColor: `hsl(${hash(student.githubLogin) % 360}, 45%, 70%)`,
 				data: [
 					{
 						x: student.daysSinceForked,
@@ -41,6 +41,22 @@
 			}}
 			options={{
 				responsive: true,
+				annotation: {
+					annotations: [
+						{
+							type: 'line',
+							mode: 'horizontal',
+							scaleID: 'y-axis-0',
+							value: 5,
+							borderColor: 'rgb(75, 192, 192)',
+							borderWidth: 4,
+							label: {
+								enabled: false,
+								content: 'Test label'
+							}
+						}
+					]
+				},
 				plugins: {
 					legend: {
 						labels: {
