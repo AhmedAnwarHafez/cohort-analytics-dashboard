@@ -18,10 +18,10 @@
 	<section class="flex flex-wrap items-stretch  justify-center gap-4">
 		<Card value={orderedStudents.length} description={'Total Students'} />
 	</section>
-	<article>
-		<ol class="flex list-decimal flex-col items-center justify-center">
+	<article class="flex flex-col items-center justify-center ">
+		<ol class="list-decimal text-left">
 			{#each orderedStudents as { login }}
-				<li class="text-left text-lg text-slate-400">{login}</li>
+				<li class=" text-lg text-slate-400">{login}</li>
 			{/each}
 		</ol>
 	</article>
