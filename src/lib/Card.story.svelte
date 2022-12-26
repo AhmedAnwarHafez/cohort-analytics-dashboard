@@ -2,8 +2,8 @@
 	import { Canvas, Frame } from '@leveluptuts/bookit';
 	import Card from './Card.svelte';
 
-	export const parent = 'components';
-	export const title = 'parent';
+	export const parent = 'Library';
+	export const title = 'Card';
 </script>
 
 <Canvas>
