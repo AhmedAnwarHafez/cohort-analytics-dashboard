@@ -12,6 +12,37 @@
 </script>
 
 <section class="flex flex-col gap-10">
+	<article class="flex flex-col gap-4">
+		<h2 class="text-4xl text-slate-400 underline">What&apos;s on this page</h2>
+		<p class="explain-paragraph">
+			This page displays different kinds of visualisations to help teachers to identify students who
+			go off the radar. The visualisations below are based on the data collected from Github&apos;s
+			GraphQL API. The visualisations below focus on two columns of the data: <code
+				>daysSpentOnChallenge</code
+			>
+			and <code>daysSinceForked</code>.
+		</p>
+		<dl class="flex flex-col gap-2 text-2xl text-slate-400">
+			<dt><code>daysSpentOnChallenge</code></dt>
+			<dd class="ml-4">
+				<p class="explain-paragraph">
+					The time delta (diff) between the first commit date and the last commit date. Or, how many
+					days the student spent on a challenge.
+				</p>
+			</dd>
+			<dt><code>daysSinceForked</code></dt>
+			<dd class="ml-4">
+				<p class="explain-paragraph">
+					The time the student took to start working on a challenge. This is measured by calculating
+					the time delta (diff) between <code>repo.createdAt</code> and the first commit date
+				</p>
+			</dd>
+		</dl>
+		<p class="explain-paragraph">
+			With these two columns we can determine students who are having a rough time, procrastinating,
+			etc.
+		</p>
+	</article>
 	<section class="flex flex-wrap items-stretch  justify-center gap-4">
 		<Card value={orderedStudents.length} description={'Total Students'} />
 	</section>
@@ -22,7 +53,7 @@
 			{/each}
 		</ol>
 	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
+	<hr />
 	<article>
 		<Paragraph
 			title="Days passed since fork per challenge in table format"
@@ -34,7 +65,7 @@
 		/>
 		<Bubble data={studentsAggregates} />
 	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
+	<hr />
 	<article>
 		<Paragraph
 			title="Days spent on challenge per student"
@@ -74,7 +105,7 @@
 			<Table data={studentsAggregates} column="totalCount" />
 		</figure>
 	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
+	<hr />
 	<article>
 		<Paragraph
 			title="Days passed since fork per challenge in table format"
@@ -86,7 +117,7 @@
 		/>
 		<SinceForked />
 	</article>
-	<hr class="border-1 block h-1 border-slate-700" />
+	<hr />
 	<article>
 		<Paragraph
 			title="Days passed since fork per challenge in table format"
