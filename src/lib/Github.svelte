@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Student, StudentGithubAggregate } from 'src/routes/+page.server';
+	import type { Student, StudentGithubAggregate } from 'src/routes/github/+page.server';
 	import Bubble from './Bubble.svelte';
 	import Card from './Card.svelte';
 	import Paragraph from './Paragraph.svelte';

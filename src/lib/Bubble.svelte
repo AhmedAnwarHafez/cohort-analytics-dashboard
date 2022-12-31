@@ -3,7 +3,7 @@
 	import hash from 'string-hash';
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
-	import type { StudentGithubAggregate } from 'src/routes/+page.server';
+	import type { StudentGithubAggregate } from 'src/routes/github/+page.server';
 	import { groupBy } from 'lodash';
 
 	ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale);

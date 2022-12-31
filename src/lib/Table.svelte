@@ -1,6 +1,6 @@
 <script lang="ts">
 	import _ from 'lodash';
-	import type { StudentGithubAggregate } from 'src/routes/+page.server';
+	import type { StudentGithubAggregate } from 'src/routes/github/+page.server';
 
 	export let data: StudentGithubAggregate[];
 	export let column: string;

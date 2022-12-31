@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Repo } from 'src/routes/+page.server';
+	import type { Repo } from 'src/routes/github/+page.server';
 
 	export let repos: Repo[];
 	export let selectedCohort: string;

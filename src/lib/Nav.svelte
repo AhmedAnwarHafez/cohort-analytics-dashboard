@@ -13,7 +13,10 @@
 			</a>
 		</li>
 		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
+			<a
+				href="/github"
+				class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300"
+			>
 				<span>Github</span>
 			</a>
 		</li>

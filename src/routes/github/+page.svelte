@@ -46,16 +46,13 @@
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
 
-<Nav />
-<main class="container m-auto flex flex-col items-center gap-4 lg:flex-row lg:items-start">
-	<Sidebar repos={data.repos} {selectedCohort} {selectedRepos} {cohorts} />
-	<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
-		{#if data.students.length > 0}
-			<article class="p-10">
-				<Github {orderedStudents} {studentsAggregates} />
-			</article>
-		{:else}
-			<p class="font-handwritten text-6xl italic text-slate-500">&lt-- use filters</p>
-		{/if}
-	</section>
-</main>
+<Sidebar repos={data.repos} {selectedCohort} {selectedRepos} {cohorts} />
+<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
+	{#if data.students.length > 0}
+		<article class="p-10">
+			<Github {orderedStudents} {studentsAggregates} />
+		</article>
+	{:else}
+		<p class="font-handwritten text-6xl italic text-slate-500">&lt-- use filters</p>
+	{/if}
+</section>
