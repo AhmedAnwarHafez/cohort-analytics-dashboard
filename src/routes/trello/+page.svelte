@@ -19,5 +19,7 @@
 		<div class="board">
 			<h3>{board}</h3>
 		</div>
+	{:else}
+		<p>No boards found</p>
 	{/each}
 </main>
