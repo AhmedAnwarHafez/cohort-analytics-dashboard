@@ -105,8 +105,6 @@ export async function load({ url }: RequestEvent) {
 		}
 	);
 
-	console.log(githubAggregates);
-
 	return {
 		repos: availableRepos,
 		students,
