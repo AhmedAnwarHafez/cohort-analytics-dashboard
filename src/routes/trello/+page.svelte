@@ -15,9 +15,10 @@
 		</label>
 	</form>
 
-	{#each data.boards as board}
+	{#each data.boards as { name, bounces }}
 		<div class="board">
-			<h3>{board}</h3>
+			<h3>{name}</h3>
+			<h3>{bounces}</h3>
 		</div>
 	{:else}
 		<p>No boards found</p>
