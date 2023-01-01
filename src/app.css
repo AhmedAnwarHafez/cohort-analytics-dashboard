@@ -11,6 +11,14 @@
 		padding: 0.25rem;
 	}
 
+	.bg-slate-750 {
+		background-color: hsl(217, 33%, 20%);
+	}
+
+	.table-body-cell {
+		@apply bg-slate-750 table-cell   border-slate-700 p-4 pt-6 text-center font-semibold;
+	}
+
 	.explain-paragraph {
 		@apply text-2xl text-slate-400;
 	}

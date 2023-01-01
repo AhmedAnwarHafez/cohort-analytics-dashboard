@@ -12,21 +12,32 @@
 			<input type="text" name="board" class="text-4xl" />
 		</label>
 	</form>
-
-	<table class="mx-auto w-4/5 table-auto text-3xl text-slate-300">
-		<thead>
-			<tr>
-				<th>Bounces</th>
-				<th>Name</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each data.boards as { name, bounces }}
-				<tr>
-					<td class="border border-slate-400 p-4">{bounces}</td>
-					<td class="border border-slate-400 p-4">{name}</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+	<div class="table w-full  p-4 text-lg text-slate-300">
+		<div class="table-header-group">
+			<div class="table-row ">
+				<div
+					class="table-cell rounded-tl-xl border-l-[1px] border-t-[1px] border-slate-700 bg-slate-900 p-4 pt-6 text-center font-semibold"
+				>
+					Bounces
+				</div>
+				<div
+					class="table-cell rounded-tr-xl border-r-[1px] border-t-[1px] border-slate-700 bg-slate-900 p-4 pt-6 text-center font-semibold"
+				>
+					Name
+				</div>
+			</div>
+		</div>
+		{#each data.boards as { name, bounces }}
+			<div class="table-row-group">
+				<div class="table-row">
+					<div class="table-body-cell border-l">
+						{bounces}
+					</div>
+					<div class="table-body-cell border-r">
+						{name}
+					</div>
+				</div>
+			</div>
+		{/each}
+	</div>
 </main>
