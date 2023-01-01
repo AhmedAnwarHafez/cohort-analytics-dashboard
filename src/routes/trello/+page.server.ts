@@ -32,7 +32,8 @@ export const load = (async ({ cookies }) => {
 								: acc,
 						0
 					)
-			}));
+			}))
+			.sort((a, b) => b.bounces - a.bounces);
 
 		return {
 			boards: bounces
