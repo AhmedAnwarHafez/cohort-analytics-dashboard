@@ -1,14 +1,15 @@
 import type { Actions, PageServerLoad } from './$types';
-// import fetchAll from './trello';
-import { boards } from './boards';
+import { fetchAll } from './trello';
+// import { boards } from './boards';
 
 export type Data = Awaited<ReturnType<typeof load>>;
 
 export const load = (async ({ cookies }) => {
-	const data = cookies.get('boards');
+	const boardNames = cookies.get('boards');
 
-	if (data) {
-		const bounces = boards
+	if (boardNames) {
+		const boards = await fetchAll(JSON.parse(boardNames as string));
+		const aggregatedBoards = boards
 			// put the cards in the board object
 			.map((board) => ({
 				...board,
@@ -26,7 +27,7 @@ export const load = (async ({ cookies }) => {
 						(acc, card) =>
 							card.actions.some(
 								(action) =>
-									action.after.match(/Needs Action/i) && action.before.match(/For Review/i)
+									action.after!.match(/Needs Action/i) && action.before!.match(/For Review/i)
 							)
 								? acc + 1
 								: acc,
@@ -36,7 +37,7 @@ export const load = (async ({ cookies }) => {
 			.sort((a, b) => b.bounces - a.bounces);
 
 		return {
-			boards: bounces
+			boards: aggregatedBoards
 		};
 	}
 
