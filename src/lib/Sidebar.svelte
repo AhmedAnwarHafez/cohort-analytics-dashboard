@@ -10,12 +10,12 @@
 <aside class="flex flex-none basis-1/6 flex-col items-center gap-4 p-4 lg:pt-10 ">
 	<form method="get" class="flex flex-col gap-2">
 		<label for="cohort" class="text-slate-500">Filter by cohort</label>
+		<!-- bind:value={selectedCohort} -->
 		<select
 			name="cohort"
 			id="cohort"
 			class="mb-2 w-full rounded-lg bg-slate-700 p-2 text-slate-300"
 			required
-			bind:value={selectedCohort}
 		>
 			<option value="">--COHORTS--</option>
 			{#each cohorts as { name, startDate }}

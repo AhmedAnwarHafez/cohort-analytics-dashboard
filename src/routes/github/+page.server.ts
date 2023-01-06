@@ -39,6 +39,7 @@ export async function load({ url }: RequestEvent) {
 
 	if (!url.searchParams.has('repos')) {
 		return {
+			cohort: selectedCohortWithDate,
 			repos: availableRepos,
 			students: [],
 			githubAggregates: []
@@ -106,6 +107,7 @@ export async function load({ url }: RequestEvent) {
 	);
 
 	return {
+		cohort: selectedCohortWithDate,
 		repos: availableRepos,
 		students,
 		githubAggregates

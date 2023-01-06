@@ -5,14 +5,13 @@
 	import Nav from '$lib/Nav.svelte';
 	import type { Repo, Student, StudentGithubAggregate } from './+page.server';
 	import Github from '$lib/Github.svelte';
-	import '../app.css';
 	import Sidebar from '$lib/Sidebar.svelte';
 
-	export let data: { students: Student[]; repos: Repo[] };
+	export let data: { students: Student[]; repos: Repo[]; selectedCohort: string };
 
 	// read query params from the URL
 	$: selectedRepos = $page.url.searchParams.getAll('repos');
-	let selectedCohort: string;
+	let selectedCohort = data.selectedCohort;
 	let cohorts = [
 		{
 			name: 'harakeke-2022',
@@ -46,7 +45,7 @@
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
 
-<Sidebar repos={data.repos} {selectedCohort} {selectedRepos} {cohorts} />
+<Sidebar repos={data.repos} {selectedCohort} {cohorts} {selectedRepos} />
 <section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
 	{#if data.students.length > 0}
 		<article class="p-10">
