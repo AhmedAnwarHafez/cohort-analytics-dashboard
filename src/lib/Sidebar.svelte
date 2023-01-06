@@ -52,9 +52,9 @@
 			{/each}
 		</ul>
 		<button
-			class="align-center mt-4 flex items-center gap-2 rounded bg-slate-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg"
+			class="rounded bg-slate-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg"
 		>
-			<span class="material-symbols-outlined"> tune </span>
+			<i class="fa-solid fa-filter" />
 			Filter
 		</button>
 	</form>
