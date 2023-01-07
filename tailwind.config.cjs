@@ -4,7 +4,6 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				display: ['Kalam', 'sans-serif'],
 				handwritten: ['"Gloria Hallelujah"', 'sans-serif']
 			}
 		}
