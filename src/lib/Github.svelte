@@ -13,24 +13,24 @@
 
 <section class="flex flex-col gap-10">
 	<article class="flex flex-col gap-4">
-		<h2 class="text-4xl text-slate-400 underline">What&apos;s on this page</h2>
+		<h2 class="text-2xl text-slate-400 underline">What&apos;s on this page</h2>
 		<p class="explain-paragraph">
 			This page displays different kinds of visualisations to help teachers to identify students who
 			go off the radar. The visualisations below are based on the data collected from Github&apos;s
-			GraphQL API. The visualisations below focus on two columns of the data: <code
-				>daysSpentOnChallenge</code
+			GraphQL API. The visualisations below focus on two columns that are automatically calculated: <strong
+				>Days Spent</strong
 			>
-			and <code>daysSinceForked</code>.
+			and <strong>Days Since Forked</strong>.
 		</p>
-		<dl class="flex flex-col gap-2 text-2xl text-slate-400">
-			<dt><code>daysSpentOnChallenge</code></dt>
+		<dl class="flex flex-col gap-2 text-xl text-slate-400">
+			<dt><strong>Days Spent</strong></dt>
 			<dd class="ml-4">
 				<p class="explain-paragraph">
 					The time delta (diff) between the first commit date and the last commit date. Or, how many
 					days the student spent on a challenge.
 				</p>
 			</dd>
-			<dt><code>daysSinceForked</code></dt>
+			<dt><strong>daysSinceForked</strong></dt>
 			<dd class="ml-4">
 				<p class="explain-paragraph">
 					The time the student took to start working on a challenge. This is measured by calculating
