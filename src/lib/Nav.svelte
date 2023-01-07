@@ -1,5 +1,5 @@
 <nav
-	class="flex flex-row items-center justify-between border-b border-b-slate-500 bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900"
+	class="flex flex-row items-center justify-between border-b border-b-slate-500 bg-slate-900 p-4"
 >
 	<h1 class="pl-4 text-center text-3xl text-slate-400 lg:text-left">Cohort Analytics Dashboard</h1>
 	<!-- a nav bar with three links, Github, Trello and Login -->
