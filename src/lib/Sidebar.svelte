@@ -50,7 +50,7 @@
 		</fieldset>
 		<fieldset>
 			<label for="repos" class="text-slate-500">Filter by repos</label>
-			<ul id="repos" class="flex flex-col gap-1">
+			<ul id="repos" class="flex h-[50vh] flex-col gap-1 overflow-y-scroll">
 				{#each repos as { name }}
 					<li>
 						<label for={name} class="mr-3 flex gap-1 text-xl text-slate-400">
