@@ -1,16 +1,44 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { navigating } from '$app/stores';
 	import type { Data } from './+page.server';
 
 	export let data: Data;
 </script>
 
-<main class="container mt-10 flex flex-col gap-8">
-	<form method="post" use:enhance class="mx-auto">
-		<label for="board" class="flex flex-col">
-			<span class="text-slate-400">Board Name</span>
-			<input type="text" name="board" class="text-4xl" />
-		</label>
+<main class="container mt-10 flex flex-row gap-8">
+	<form method="get" class="mx-auto flex flex-col gap-10">
+		{#if $navigating}
+			<button
+				class="rounded bg-slate-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg"
+			>
+				<i class="fa-solid fa-spinner fa-spin" />
+				Loading
+			</button>
+		{:else}
+			<button
+				class="rounded bg-slate-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg"
+			>
+				<i class="fa-solid fa-filter" />
+				Filter
+			</button>
+			<button
+				type="reset"
+				class="rounded bg-slate-600 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-slate-700 hover:shadow-lg focus:bg-slate-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-slate-800 active:shadow-lg"
+			>
+				<i class="fa-regular fa-trash-can" />
+				Reset
+			</button>
+		{/if}
+		<ul>
+			{#each data.organisations as org}
+				<li class="text-slate-200">
+					<label for={org.name}>
+						<input type="checkbox" name="orgs" id={org.name} value={org.name} />
+						{org.name}
+					</label>
+				</li>
+			{/each}
+		</ul>
 	</form>
 	<div class="table w-full  p-4 text-lg text-slate-300">
 		<div class="table-header-group">

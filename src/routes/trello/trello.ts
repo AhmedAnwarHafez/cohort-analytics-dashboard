@@ -163,3 +163,19 @@ const fetchAndProcessLists = async (boards: BoardWithLists[]) => {
 		})
 	);
 };
+
+export async function fetchMyOrganisations() {
+	const response = await fetch(`${baseUrl}/members/me/organizations${apiQueryString}`);
+	const jsonResponse = await response.json();
+
+	const data = z
+		.array(
+			z.object({
+				id: z.string(),
+				name: z.string()
+			})
+		)
+		.parse(jsonResponse);
+
+	return data;
+}
