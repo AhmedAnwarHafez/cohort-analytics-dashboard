@@ -7,12 +7,6 @@
 	<!-- a nav bar with three links, Github, Trello and Login -->
 	<ul class="flex flex-row  justify-end gap-4 space-x-6  p-4">
 		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span class="material-symbols-outlined">home</span>
-				<span>Home</span>
-			</a>
-		</li>
-		<li>
 			<a
 				href="/github"
 				class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300"
@@ -26,12 +20,6 @@
 				class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300"
 			>
 				<span>Trello</span>
-			</a>
-		</li>
-		<li>
-			<a href="#" class="flex flex-row items-center gap-2 text-slate-400 hover:text-slate-300">
-				<span class="material-symbols-outlined">login</span>
-				<span>Login</span>
 			</a>
 		</li>
 	</ul>
