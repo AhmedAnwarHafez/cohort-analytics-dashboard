@@ -20,7 +20,7 @@
 	}
 
 	.explain-paragraph {
-		@apply text-2xl text-slate-400;
+		@apply text-lg text-slate-400;
 	}
 
 	hr {
