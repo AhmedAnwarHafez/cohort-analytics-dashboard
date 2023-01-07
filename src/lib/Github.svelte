@@ -55,78 +55,56 @@
 	</article>
 	<hr />
 	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
+		<Paragraph title="Days passed since fork per challenge in table format">
+			<p class="indent-8 text-lg text-slate-400">
+				This visualisation is a bubble chart. The x-axis represents the <strong>Days Spent</strong>
+				and y-axis is represents <strong>Days Since Forked</strong>. Each bubble represents a
+				student. Bubbles that are positioned in the bottom left corner are performing well, while
+				bubbles that are positioned in the top right corner are not performing well.
+			</p>
+		</Paragraph>
 		<Bubble data={studentsAggregates} />
 	</article>
 	<hr />
 	<article>
-		<Paragraph
-			title="Days spent on challenge per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
+		<Paragraph title="Days spent on challenge per student">
+			<p class="indent-8 text-lg text-slate-400">
+				This is a table that shows the <strong>Days spent</strong> for each student and the average time
+				spent on selected challenges.
+			</p>
+		</Paragraph>
 		<figure class="mt-5">
 			<Table data={studentsAggregates} column="daysSpentOnChallenge" />
 		</figure>
 	</article>
 	<article>
-		<Paragraph
-			title="Days passed since fork per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
+		<Paragraph title="Days passed since fork per student">
+			<p class="indent-8 text-lg text-slate-400">
+				This is a table that shows the <strong>Days Since Forked</strong> for each student and the average
+				time spent on selected challenges.
+			</p>
+		</Paragraph>
 		<figure class="mt-5">
 			<Table data={studentsAggregates} column="daysSinceForked" />
 		</figure>
 	</article>
 	<article>
-		<Paragraph
-			title="Total commits per student"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
+		<Paragraph title="Total Commits">
+			<p class="indent-8 text-lg text-slate-400">
+				This is a table that shows the <strong>Total Number of Commits</strong> for each student and
+				the average for each challenge. This information could be handy.
+			</p>
+		</Paragraph>
 		<figure class="mt-5">
 			<Table data={studentsAggregates} column="totalCount" />
 		</figure>
 	</article>
 	<hr />
 	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
 		<SinceForked />
 	</article>
 	<hr />
 	<article>
-		<Paragraph
-			title="Days passed since fork per challenge in table format"
-			paragraph={`
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae, fuga necessitatibus sit
-			tenetur corporis culpa dignissimos illum mollitia exercitationem labore quibusdam temporibus
-			cumque consequatur inventore eligendi magnam laudantium ducimus nisi.
-		`}
-		/>
 		<Radar />
 	</article>
 </section>
