@@ -1,6 +1,8 @@
 <script lang="ts">
-	import type { Student, StudentGithubAggregate } from 'src/routes/github/+page.server';
 	import { fade } from 'svelte/transition';
+	import { page } from '$app/stores';
+
+	import type { Student, StudentGithubAggregate } from 'src/routes/github/+page.server';
 	import Bubble from './Bubble.svelte';
 	import Card from './Card.svelte';
 	import Paragraph from './Paragraph.svelte';
@@ -10,6 +12,8 @@
 
 	export let studentsAggregates: StudentGithubAggregate[];
 	export let orderedStudents: Student[];
+
+	$: cohort = new URLSearchParams($page.url.searchParams).get('cohort');
 </script>
 
 <section class="flex flex-col gap-10" transition:fade>
@@ -44,7 +48,11 @@
 			etc.
 		</p>
 	</article>
-	<section class="flex flex-wrap items-stretch  justify-center gap-4">
+	<hr />
+	<h4 class="text-2xl text-slate-400">
+		Students in <me class="rounded-xl bg-slate-900 p-1 px-3">{cohort?.toLocaleUpperCase()}</me>
+	</h4>
+	<section class="flex flex-wrap items-stretch justify-center gap-4 p-4">
 		<Card value={orderedStudents.length} description={'Total Students'} />
 	</section>
 	<article class="flex flex-col items-center justify-center ">
