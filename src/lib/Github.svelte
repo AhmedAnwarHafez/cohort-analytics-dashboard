@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Student, StudentGithubAggregate } from 'src/routes/github/+page.server';
+	import { fade } from 'svelte/transition';
 	import Bubble from './Bubble.svelte';
 	import Card from './Card.svelte';
 	import Paragraph from './Paragraph.svelte';
@@ -11,7 +12,7 @@
 	export let orderedStudents: Student[];
 </script>
 
-<section class="flex flex-col gap-10">
+<section class="flex flex-col gap-10" transition:fade>
 	<article class="flex flex-col gap-4">
 		<h2 class="text-2xl text-slate-400 underline">What&apos;s on this page</h2>
 		<p class="explain-paragraph">
