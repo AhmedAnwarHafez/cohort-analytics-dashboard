@@ -21,8 +21,8 @@
 				hoverBackgroundColor: `hsl(${hash(student.githubLogin) % 360}, 45%, 70%)`,
 				data: [
 					{
-						x: student.daysSinceForked,
-						y: student.daysSpentOnChallenge,
+						x: student.daysSinceForked.toFixed(2),
+						y: student.daysSpentOnChallenge.toFixed(2),
 						// r is the size of the bubble, 5 is the minimum size
 						r: 10 //+ student.totalCount
 					}
@@ -32,7 +32,7 @@
 </script>
 
 {#each Object.keys(groupedByRepo) as repo}
-	<figure class="mt-5">
+	<figure class="mt-5 rounded-2xl border border-slate-500 p-2">
 		<figcaption class="text-center text-4xl text-slate-400">{repo}</figcaption>
 		<Bubble
 			data={{
@@ -41,22 +41,6 @@
 			}}
 			options={{
 				responsive: true,
-				annotation: {
-					annotations: [
-						{
-							type: 'line',
-							mode: 'horizontal',
-							scaleID: 'y-axis-0',
-							value: 5,
-							borderColor: 'rgb(75, 192, 192)',
-							borderWidth: 4,
-							label: {
-								enabled: false,
-								content: 'Test label'
-							}
-						}
-					]
-				},
 				plugins: {
 					legend: {
 						labels: {
@@ -69,16 +53,34 @@
 						beginAtZero: true,
 						title: {
 							display: true,
-							text: 'Days spent to complete challenge',
-							color: 'hsl(0, 0%, 80%)'
+							text: 'Days spent',
+							color: 'hsl(0, 0%, 80%)',
+							font: {
+								size: 20
+							}
+						},
+						ticks: {
+							color: 'hsl(0, 50%, 100%)',
+							font: {
+								size: 14
+							}
 						}
 					},
 					y: {
 						beginAtZero: true,
 						title: {
 							display: true,
-							text: 'Days since challenge forked',
-							color: 'hsl(0, 0%, 80%)'
+							text: 'Days since forked',
+							color: 'hsl(0, 0%, 80%)',
+							font: {
+								size: 20
+							}
+						},
+						ticks: {
+							color: 'hsl(0, 50%, 100%)',
+							font: {
+								size: 14
+							}
 						}
 					}
 				}
