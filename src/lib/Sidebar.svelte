@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import type { Cohort, Repo } from 'src/routes/github/+page.server';
@@ -10,9 +11,26 @@
 	function handleInput(event: Event) {
 		const target = event.target as HTMLInputElement;
 		const { name, value } = target;
-		console.log(name);
 
-		goto(`?${name}=${value}`, { replaceState: true, keepFocus: true });
+		// this function is called when the select element or the checkbox is changed
+		// since the select element is a single value, we can just set the value
+		// but the checkbox is a multi-value, so we need to add/remove the value
+		// we can use the `URLSearchParams` API to make this easier
+		const params = new URLSearchParams($page.url.search);
+		if (target.type === 'checkbox') {
+			if (target.checked) {
+				params.append(name, value);
+			} else {
+				params.delete(name);
+			}
+		} else {
+			params.set(name, value);
+		}
+
+		// now we have a new URLSearchParams object, we can use it to update the URL
+		// and force a navigation that will trigger the loader function in the backend
+		// we also want to keep the focus on the page, so we pass `keepFocus: true`
+		goto(`?${params.toString()}`, { replaceState: true, keepFocus: true });
 	}
 </script>
 
@@ -49,6 +67,7 @@
 				id="cohort"
 				class="mb-2 w-full rounded-lg bg-slate-700 p-2 text-slate-300"
 				required
+				value={new URLSearchParams($page.url.search).get('cohort') || ''}
 				on:change={handleInput}
 			>
 				<option value="">--COHORTS--</option>
@@ -64,24 +83,17 @@
 					<li>
 						<label for={name} class="mr-3 flex gap-1 text-xl text-slate-400">
 							<!-- <input type="hidden" name="id" value={name} /> -->
-							{#if selectedRepos.includes(name)}
-								<input
-									type="checkbox"
-									name="repos"
-									id={name}
-									class="mr-2 inline-block h-6 w-6 bg-slate-100 align-text-top text-green-500 focus:ring-slate-500"
-									value={name}
-									checked={true}
-								/>
-							{:else}
-								<input
-									type="checkbox"
-									name="repos"
-									id={name}
-									class="mr-2 inline-block h-6 w-6 bg-slate-100 align-text-top text-green-500 focus:ring-slate-500"
-									value={name}
-								/>
-							{/if}
+							<input
+								type="checkbox"
+								name="repos"
+								id={name}
+								class="mr-2 inline-block h-6 w-6 bg-slate-100 align-text-top text-green-500 focus:ring-slate-500"
+								value={name}
+								checked={new URLSearchParams($page.url.search).getAll('repos').includes(name) ||
+									false}
+								on:change={handleInput}
+							/>
+
 							{name}
 						</label>
 					</li>
