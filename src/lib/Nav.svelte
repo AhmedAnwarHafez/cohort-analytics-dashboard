@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { navigating } from '$app/stores';
+	import { ProgressBar } from '@skeletonlabs/skeleton';
+</script>
+
 <nav
 	class="flex flex-row items-center justify-between border-b border-b-slate-500 bg-slate-900 p-4"
 >
@@ -22,3 +27,7 @@
 		</li>
 	</ul>
 </nav>
+
+{#if $navigating}
+	<ProgressBar height="h-[1px]" min={0} max={100} meter="bg-slate-400" />
+{/if}
