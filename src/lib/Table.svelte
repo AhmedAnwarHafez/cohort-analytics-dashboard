@@ -39,7 +39,7 @@
 						<div class="table-cell text-center">-</div>
 					{:else}
 						<div class="table-cell text-center">
-							{groupedByRepoAndStudent[challenge][githubLogin]}
+							{groupedByRepoAndStudent[challenge][githubLogin].toFixed(0)}
 						</div>
 					{/if}
 				{/each}
