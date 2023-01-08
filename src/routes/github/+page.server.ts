@@ -84,14 +84,10 @@ export async function load({ url }: RequestEvent) {
 			const firstCommit = commits[0];
 			const lastCommit = commits[commits.length - 1];
 			const daysSpentOnChallenge = Math.abs(
-				Math.round(
-					(lastCommit.committedDate.getTime() - firstCommit.committedDate.getTime()) / 86400000
-				)
+				(lastCommit.committedDate.getTime() - firstCommit.committedDate.getTime()) / 86400000
 			);
 			const daysSinceForked = Math.abs(
-				Math.round(
-					(firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000
-				)
+				(firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000
 			);
 			const { githubId, githubLogin, repo, org } = firstCommit;
 			return {
