@@ -17,7 +17,7 @@
 			.map((student) => ({
 				label: student.githubLogin,
 				// get a random color for each student
-				backgroundColor: `hsl(${hash(student.githubLogin) % 360}, 45%, 70%)`,
+				backgroundColor: `hsl(${hash(student.githubLogin) % 360}, 80%, 70%)`,
 				hoverBackgroundColor: `hsl(${hash(student.githubLogin) % 360}, 45%, 70%)`,
 				data: [
 					{
@@ -44,7 +44,15 @@
 				plugins: {
 					legend: {
 						labels: {
-							color: 'hsl(0, 0%, 80%)'
+							color: 'hsl(0, 0%, 80%)',
+							font: {
+								size: 20
+							}
+						}
+					},
+					tooltip: {
+						bodyFont: {
+							size: 25
 						}
 					}
 				},
