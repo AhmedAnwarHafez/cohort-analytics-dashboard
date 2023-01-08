@@ -5,30 +5,10 @@ import { GITHUB_TOKEN } from '$env/static/private';
 import type { RequestEvent } from './$types';
 import { error } from '@sveltejs/kit';
 
-const cohorts = [
-	{
-		name: 'harakeke-2022',
-		startDate: '2022-01-03T00:00:00Z'
-	},
-	{
-		name: 'kahikatea-2022',
-		startDate: '2022-03-14T00:00:00Z'
-	},
-	{
-		name: 'matai-2022',
-		startDate: '2022-05-23T00:00:00Z'
-	},
-	{
-		name: 'pohutukawa-2022',
-		startDate: '2022-08-01T00:00:00Z'
-	},
-	{
-		name: 'horoeka-2022',
-		startDate: '2022-10-09T00:00:00Z'
-	}
-];
-
-export type Cohort = typeof cohorts[0]['name'];
+export type Cohort = {
+	name: string;
+	startDate: string;
+};
 export type Student = Awaited<ReturnType<typeof getMembersByOrg>>[0];
 export type Repo = {
 	name: string;
@@ -44,12 +24,26 @@ export type StudentGithubAggregate = {
 	totalCount: number;
 };
 
-export async function load({ url }: RequestEvent) {
+export async function load({ url, cookies }: RequestEvent) {
 	let availableRepos: Repo[] = [];
+
+	const availableCohortsCookie = cookies.get('availableCohorts');
+	if (!availableCohortsCookie) {
+		// first time user
+		const cohorts = await getJoinedOrgs();
+		const anHour = 60 * 60;
+		cookies.set('availableCohorts', JSON.stringify(cohorts), { maxAge: anHour });
+		return {
+			cohorts: cohorts.map((cohort) => cohort.name),
+			repos: [],
+			students: [],
+			githubAggregates: []
+		};
+	}
 
 	if (!url.searchParams.has('cohort')) {
 		return {
-			cohorts: cohorts.map((cohort) => cohort.name),
+			cohorts: JSON.parse(availableCohortsCookie).map((cohort: Cohort) => cohort.name),
 			repos: [],
 			students: [],
 			githubAggregates: []
@@ -61,6 +55,8 @@ export async function load({ url }: RequestEvent) {
 	if (!selectedCohort) {
 		throw error(400, 'cohort not found');
 	}
+
+	const cohorts = JSON.parse(availableCohortsCookie) as Cohort[];
 
 	const bootcampStart = cohorts.find((cohort) => cohort.name === selectedCohort)?.startDate;
 
@@ -141,6 +137,61 @@ export async function load({ url }: RequestEvent) {
 		students,
 		githubAggregates
 	};
+}
+
+async function getJoinedOrgs() {
+	const query = `
+{
+	viewer {
+		organizations(first: 100) {
+			edges {
+				node {
+					login
+					description
+				}
+			}
+		}
+	}
+}
+`;
+
+	const jsonResponse = await fetch('https://api.github.com/graphql', {
+		method: 'POST',
+		body: JSON.stringify({ query }),
+		headers: {
+			Authorization: `Bearer ${GITHUB_TOKEN}`
+		}
+	});
+	const response = await jsonResponse.json();
+	if (response.errors) {
+		throw error(400, response.errors[0].message);
+	}
+
+	const responseData = z
+		.object({
+			data: z.object({
+				viewer: z.object({
+					organizations: z.object({
+						edges: z.array(
+							z.object({
+								node: z.object({
+									login: z.string(),
+									description: z.nullable(z.string()) // cohort start date is stored in the description field as ISO format
+								})
+							})
+						)
+					})
+				})
+			})
+		})
+		.parse(response);
+
+	const edges = responseData.data.viewer.organizations.edges;
+	const orgs = edges
+		.filter((edge) => edge.node.description) // only include orgs with a description
+		.filter((edge) => !isNaN(Date.parse(edge.node.description!))) // only include orgs with a valid date
+		.map((edge) => ({ name: edge.node.login, startDate: edge.node.description }));
+	return orgs;
 }
 
 async function getMembersByOrg(org: string) {
