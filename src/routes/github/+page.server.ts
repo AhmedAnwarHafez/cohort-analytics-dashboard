@@ -3,7 +3,32 @@ import _ from 'lodash';
 import { z } from 'zod';
 import { GITHUB_TOKEN } from '$env/static/private';
 import type { RequestEvent } from './$types';
+import { error } from '@sveltejs/kit';
 
+const cohorts = [
+	{
+		name: 'harakeke-2022',
+		startDate: '2022-01-03T00:00:00Z'
+	},
+	{
+		name: 'kahikatea-2022',
+		startDate: '2022-03-14T00:00:00Z'
+	},
+	{
+		name: 'matai-2022',
+		startDate: '2022-05-23T00:00:00Z'
+	},
+	{
+		name: 'pohutukawa-2022',
+		startDate: '2022-08-01T00:00:00Z'
+	},
+	{
+		name: 'horoeka-2022',
+		startDate: '2022-10-09T00:00:00Z'
+	}
+];
+
+export type Cohort = typeof cohorts[0]['name'];
 export type Student = Awaited<ReturnType<typeof getMembersByOrg>>[0];
 export type Repo = {
 	name: string;
@@ -24,22 +49,30 @@ export async function load({ url }: RequestEvent) {
 
 	if (!url.searchParams.has('cohort')) {
 		return {
+			cohorts: cohorts.map((cohort) => cohort.name),
 			repos: [],
 			students: [],
 			githubAggregates: []
 		};
 	}
 
-	const selectedCohortWithDate = url.searchParams.get('cohort');
 	// split cohort name and date by the first |
-	const selectedCohort = selectedCohortWithDate!.split('|')[0];
-	const bootcampStart = selectedCohortWithDate!.split('|')[1];
+	const selectedCohort = url.searchParams.get('cohort');
+	if (!selectedCohort) {
+		throw error(400, 'cohort not found');
+	}
+
+	const bootcampStart = cohorts.find((cohort) => cohort.name === selectedCohort)?.startDate;
+
+	if (!bootcampStart) {
+		throw error(400, 'cohort not found');
+	}
 
 	availableRepos = await getReposByOrg(selectedCohort);
 
 	if (!url.searchParams.has('repos')) {
 		return {
-			cohort: selectedCohortWithDate,
+			cohorts: cohorts.map((cohort) => cohort.name),
 			repos: availableRepos,
 			students: [],
 			githubAggregates: []
@@ -103,7 +136,7 @@ export async function load({ url }: RequestEvent) {
 	);
 
 	return {
-		cohort: selectedCohortWithDate,
+		cohorts: cohorts.map((cohort) => cohort.name),
 		repos: availableRepos,
 		students,
 		githubAggregates

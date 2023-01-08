@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
-	import type { Repo } from 'src/routes/github/+page.server';
+	import type { Cohort, Repo } from 'src/routes/github/+page.server';
 
 	export let repos: Repo[];
-	export let selectedCohort: string;
 	export let selectedRepos: string[];
-	export let cohorts: { name: string; startDate: string }[];
+	export let cohorts: Cohort[];
+
+	function handleInput(event: Event) {
+		const target = event.target as HTMLInputElement;
+		const { name, value } = target;
+		console.log(name);
+
+		goto(`?${name}=${value}`, { replaceState: true, keepFocus: true });
+	}
 </script>
 
 <aside class="flex flex-none basis-1/6 flex-col items-center gap-4 p-4 lg:pt-10 ">
@@ -41,10 +49,11 @@
 				id="cohort"
 				class="mb-2 w-full rounded-lg bg-slate-700 p-2 text-slate-300"
 				required
+				on:change={handleInput}
 			>
 				<option value="">--COHORTS--</option>
-				{#each cohorts as { name, startDate }}
-					<option value={`${name}|${startDate}`}>{name}</option>
+				{#each cohorts as name}
+					<option value={name}>{name}</option>
 				{/each}
 			</select>
 		</fieldset>
