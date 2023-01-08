@@ -13,13 +13,8 @@
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
-/>
-
 <Sidebar repos={data.repos} cohorts={data.cohorts} />
-<section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
+<section>
 	{#if data.students.length > 0}
 		<article class="p-10">
 			<Github {orderedStudents} {studentsAggregates} />

@@ -38,12 +38,12 @@
 					{#if !groupedByRepoAndStudent[challenge][githubLogin]}
 						<div class="table-cell text-center">-</div>
 					{:else}
-						<div class="table-cell text-center">
+						<div class="table-cell text-center font-mono">
 							{groupedByRepoAndStudent[challenge][githubLogin].toFixed(0)}
 						</div>
 					{/if}
 				{/each}
-				<div class="table-cell text-center">
+				<div class="table-cell text-center font-mono">
 					{_.mean(Object.values(groupedByStudentAndRepo[githubLogin])).toFixed(2)}
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 		<div class="table-row">
 			<div class="table-cell">TOTAL AVG</div>
 			{#each Object.keys(groupedByRepoAndStudent) as challenge}
-				<div class="table-cell text-center">
+				<div class="table-cell text-center font-mono">
 					{_.mean(Object.values(groupedByRepoAndStudent[challenge])).toFixed(2)}
 				</div>
 			{/each}

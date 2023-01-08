@@ -41,7 +41,7 @@
 	}
 </script>
 
-<aside class="flex flex-none basis-1/6 flex-col items-center gap-4 p-4 lg:pt-10 ">
+<aside class="flex  flex-col items-center gap-4 p-4 lg:pt-10 ">
 	<form method="get" class="flex flex-col gap-2">
 		<fieldset>
 			<label for="cohort" class="text-slate-500">Filter by cohort</label>
@@ -78,7 +78,8 @@
 								on:change={handleInput}
 							/>
 
-							{name}
+							<!-- {name} -->
+							<span class="w-56 truncate lg:w-48" title={name}>{name}</span>
 						</label>
 					</li>
 				{/each}
