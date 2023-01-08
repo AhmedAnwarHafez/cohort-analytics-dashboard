@@ -7,10 +7,8 @@
 	import Sidebar from '$lib/Sidebar.svelte';
 
 	export let data: { students: Student[]; repos: Repo[]; cohorts: Cohort[] };
-	$: console.log(data);
 	// read query params from the URL
 	let students: Student[] = $page.data.students;
-	$: selectedRepos = $page.url.searchParams.getAll('repos');
 	$: studentsAggregates = ($page.data.githubAggregates as StudentGithubAggregate[]) || [];
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
@@ -20,7 +18,7 @@
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
 />
 
-<Sidebar repos={data.repos} cohorts={data.cohorts} {selectedRepos} />
+<Sidebar repos={data.repos} cohorts={data.cohorts} />
 <section class="col-span-11 flex  grow items-center justify-center overflow-x-hidden">
 	{#if data.students.length > 0}
 		<article class="p-10">

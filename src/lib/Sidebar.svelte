@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { navigating } from '$app/stores';
 	import type { Cohort, Repo } from 'src/routes/github/+page.server';
 
 	export let repos: Repo[];
-	export let selectedRepos: string[];
 	export let cohorts: Cohort[];
 
 	function handleInput(event: Event) {
