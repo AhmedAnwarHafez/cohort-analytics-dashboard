@@ -29,9 +29,13 @@ export async function load({ url, cookies }: RequestEvent) {
 	const availableCohortsCookie = cookies.get('availableCohorts');
 	if (!availableCohortsCookie) {
 		// first time user
+
+		// get all orgs that the user is a member of
 		const cohorts = await getJoinedOrgs();
 		const anHour = 60 * 60;
+		// set cookie with all cohorts for 1 hour
 		cookies.set('availableCohorts', JSON.stringify(cohorts), { maxAge: anHour });
+
 		return {
 			cohorts: cohorts.map((cohort) => cohort.name),
 			repos: [],
@@ -41,15 +45,17 @@ export async function load({ url, cookies }: RequestEvent) {
 	}
 
 	if (!url.searchParams.has('cohort')) {
+		// the user has a cookie and just landed /github page without selecting a cohort
+		const cachedCohorts = JSON.parse(availableCohortsCookie).map((cohort: Cohort) => cohort.name);
 		return {
-			cohorts: JSON.parse(availableCohortsCookie).map((cohort: Cohort) => cohort.name),
+			cohorts: cachedCohorts,
 			repos: [],
 			students: [],
 			githubAggregates: []
 		};
 	}
 
-	// split cohort name and date by the first |
+	// the user has a cookie and selected a cohort from the dropdown
 	const selectedCohort = url.searchParams.get('cohort');
 	if (!selectedCohort) {
 		throw error(400, 'cohort not found');
