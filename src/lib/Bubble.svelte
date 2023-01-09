@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Bubble } from 'svelte-chartjs';
+	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import hash from 'string-hash';
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
@@ -10,6 +11,7 @@
 
 	export let data: StudentGithubAggregate[];
 	$: groupedByRepo = groupBy(data, 'repo');
+	let showTotalCommitCount = false;
 
 	function getByRepo(repo: string) {
 		return data
@@ -24,7 +26,7 @@
 						x: student.daysSinceForked.toFixed(2),
 						y: student.daysSpentOnChallenge.toFixed(2),
 						// r is the size of the bubble, 5 is the minimum size
-						r: 10 //+ student.totalCount
+						r: showTotalCommitCount ? student.totalCount / 10 : 10
 					}
 				]
 			}));
@@ -32,67 +34,70 @@
 </script>
 
 {#each Object.keys(groupedByRepo) as repo}
+	<SlideToggle bind:checked={showTotalCommitCount}>Total Commits</SlideToggle>
 	<figure class="mt-5 rounded-2xl border border-slate-500 p-2">
 		<figcaption class="text-center text-4xl text-slate-400">{repo}</figcaption>
-		<Bubble
-			data={{
-				labels: 'Bubble',
-				datasets: getByRepo(repo)
-			}}
-			options={{
-				responsive: true,
-				plugins: {
-					legend: {
-						labels: {
-							color: 'hsl(0, 0%, 80%)',
-							font: {
-								size: 20
+		{#key showTotalCommitCount}
+			<Bubble
+				data={{
+					labels: 'Bubble',
+					datasets: getByRepo(repo)
+				}}
+				options={{
+					responsive: true,
+					plugins: {
+						legend: {
+							labels: {
+								color: 'hsl(0, 0%, 80%)',
+								font: {
+									size: 20
+								}
+							}
+						},
+						tooltip: {
+							bodyFont: {
+								size: 25
 							}
 						}
 					},
-					tooltip: {
-						bodyFont: {
-							size: 25
-						}
-					}
-				},
-				scales: {
-					x: {
-						beginAtZero: true,
-						title: {
-							display: true,
-							text: 'Days spent',
-							color: 'hsl(0, 0%, 80%)',
-							font: {
-								size: 20
+					scales: {
+						x: {
+							beginAtZero: true,
+							title: {
+								display: true,
+								text: 'Days spent',
+								color: 'hsl(0, 0%, 80%)',
+								font: {
+									size: 20
+								}
+							},
+							ticks: {
+								color: 'hsl(0, 50%, 100%)',
+								font: {
+									size: 14
+								}
 							}
 						},
-						ticks: {
-							color: 'hsl(0, 50%, 100%)',
-							font: {
-								size: 14
-							}
-						}
-					},
-					y: {
-						beginAtZero: true,
-						title: {
-							display: true,
-							text: 'Days since forked',
-							color: 'hsl(0, 0%, 80%)',
-							font: {
-								size: 20
-							}
-						},
-						ticks: {
-							color: 'hsl(0, 50%, 100%)',
-							font: {
-								size: 14
+						y: {
+							beginAtZero: true,
+							title: {
+								display: true,
+								text: 'Days since forked',
+								color: 'hsl(0, 0%, 80%)',
+								font: {
+									size: 20
+								}
+							},
+							ticks: {
+								color: 'hsl(0, 50%, 100%)',
+								font: {
+									size: 14
+								}
 							}
 						}
 					}
-				}
-			}}
-		/>
+				}}
+			/>
+		{/key}
 	</figure>
 {/each}

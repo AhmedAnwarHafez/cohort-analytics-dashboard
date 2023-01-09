@@ -118,6 +118,10 @@ export async function load({ url, cookies }: RequestEvent) {
 			const daysSinceForked = Math.abs(
 				(firstCommit.committedDate.getTime() - firstCommit.createdAt.getTime()) / 86400000
 			);
+
+			// calculate total commits by counting commitId
+			const totalCount = _.uniqBy(commits, 'commitId').length;
+
 			const { githubId, githubLogin, repo, org } = firstCommit;
 			return {
 				org,
@@ -126,7 +130,7 @@ export async function load({ url, cookies }: RequestEvent) {
 				githubLogin,
 				daysSpentOnChallenge,
 				daysSinceForked,
-				totalCount: firstCommit.totalCount
+				totalCount
 			};
 		}
 	);
@@ -307,6 +311,7 @@ async function getCommitsByRepo(
 	bootcampEndDate.setDate(bootcampEndDate.getDate() + 68);
 
 	const query = makeQuery(repoName, orgName, createdAt, bootcampEndDate);
+
 	const jsonResponse = await fetch('https://api.github.com/graphql', {
 		method: 'POST',
 		body: JSON.stringify({ query }),
@@ -332,6 +337,7 @@ async function getCommitsByRepo(
 										totalCount: z.number(),
 										nodes: z.array(
 											z.object({
+												id: z.string(),
 												committedDate: z.string(),
 												author: z.object({
 													user: z.nullable(
@@ -366,6 +372,7 @@ async function getCommitsByRepo(
 					'id' in commit.author.user
 			)
 			.flatMap((commit) => ({
+				commitId: commit.id,
 				totalCount: node.target.history.totalCount,
 				createdAt: new Date(data.data.repository.createdAt),
 				committedDate: new Date(commit.committedDate),
@@ -396,6 +403,7 @@ function makeQuery(repoName: string, orgName: string, createdAt: string, bootcam
               nodes {
                 ... on Commit {
                   committedDate
+				  id
                   author {
                     name
                     user {
