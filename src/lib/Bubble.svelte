@@ -27,7 +27,6 @@
 			...row,
 			totalCount: normalizedTotalCount[index]
 		}));
-		console.log(normalizedData);
 
 		return normalizedData
 			.filter((row) => row.repo === repo)
