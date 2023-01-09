@@ -107,6 +107,8 @@ export async function load({ url, cookies }: RequestEvent) {
 		(commit) => `${commit.githubLogin}-${commit.repo}`
 	);
 
+	console.log(groupedCommits);
+
 	// aggregate and calculate the difference between the first and last commit
 	const githubAggregates: StudentGithubAggregate[] = Object.values(groupedCommits).map(
 		(commits) => {

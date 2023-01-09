@@ -7,12 +7,16 @@
 	import Card from './Card.svelte';
 	import Paragraph from './Paragraph.svelte';
 	import Radar from './Radar.svelte';
-	import SinceForked from './SinceForked.svelte';
+	import TotalCommits from './TotalCommits.svelte';
 	import Table from './Table.svelte';
+	import { groupBy } from 'lodash';
 
 	export let studentsAggregates: StudentGithubAggregate[];
 	export let orderedStudents: Student[];
+	let showTotalCommitCount = false;
 
+	// group by challenge
+	const challenges = groupBy(studentsAggregates, 'repo');
 	$: cohort = new URLSearchParams($page.url.searchParams).get('cohort');
 </script>
 
@@ -63,7 +67,7 @@
 		</ol>
 	</article>
 	<hr />
-	<article>
+	<article class="flex flex-col">
 		<Paragraph title="Days passed since fork per challenge in table format">
 			<p class="indent-8 text-lg text-slate-400">
 				This visualisation is a bubble chart. The x-axis represents the <strong>Days Spent</strong>
@@ -72,7 +76,17 @@
 				bubbles that are positioned in the top right corner are not performing well.
 			</p>
 		</Paragraph>
-		<Bubble data={studentsAggregates} />
+
+		<label for="showTotalCounts" class="flex items-center gap-2 self-end text-xl text-slate-300">
+			<input
+				type="checkbox"
+				name="showTotalCounts"
+				id="showTotalCounts"
+				bind:checked={showTotalCommitCount}
+			/>
+			Show total commit counts
+		</label>
+		<Bubble data={studentsAggregates} bind:showTotalCommitCount />
 	</article>
 	<hr />
 	<article>
@@ -110,10 +124,23 @@
 	</article>
 	<hr />
 	<article>
-		<SinceForked />
+		<Paragraph title="Total Commits per challenge">
+			<p class="indent-8 text-lg text-slate-400">
+				This is a table that shows the <strong>Total Number of Commits</strong> for each student
+				across all branches. The values is calculated by counting the unique <code>commitId</code> for
+				each student for all branches. This information could be handy to identify students who are not
+				contributing to Group projects.
+			</p>
+		</Paragraph>
+		{#each Object.entries(challenges) as [challenge, students]}
+			<figure class="mt-5">
+				<TotalCommits data={students} column="totalCount" title={challenge} />
+			</figure>
+		{/each}
 	</article>
 	<hr />
 	<article>
+		<Paragraph title="UNDER DEVELOPMENT" />
 		<Radar />
 	</article>
 </section>

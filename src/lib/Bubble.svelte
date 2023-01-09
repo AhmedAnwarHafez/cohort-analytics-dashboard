@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Bubble } from 'svelte-chartjs';
-	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import hash from 'string-hash';
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
@@ -11,10 +10,26 @@
 
 	export let data: StudentGithubAggregate[];
 	$: groupedByRepo = groupBy(data, 'repo');
-	let showTotalCommitCount = false;
+	export let showTotalCommitCount = false;
+
+	function normalize<T extends number>(array: T[], min: number, max: number) {
+		const range = max - min;
+		return array.map((element) => (element - min) / range);
+	}
 
 	function getByRepo(repo: string) {
-		return data
+		const normalizedTotalCount = normalize(
+			data.map((row) => row.totalCount),
+			0,
+			0.4
+		);
+		const normalizedData = data.map((row, index) => ({
+			...row,
+			totalCount: normalizedTotalCount[index]
+		}));
+		console.log(normalizedData);
+
+		return normalizedData
 			.filter((row) => row.repo === repo)
 			.map((student) => ({
 				label: student.githubLogin,
@@ -26,7 +41,8 @@
 						x: student.daysSinceForked.toFixed(2),
 						y: student.daysSpentOnChallenge.toFixed(2),
 						// r is the size of the bubble, 5 is the minimum size
-						r: showTotalCommitCount ? student.totalCount / 10 : 10
+						// normalize the total count to be between 5 and 20
+						r: showTotalCommitCount ? student.totalCount : 10
 					}
 				]
 			}));
@@ -34,7 +50,6 @@
 </script>
 
 {#each Object.keys(groupedByRepo) as repo}
-	<SlideToggle bind:checked={showTotalCommitCount}>Total Commits</SlideToggle>
 	<figure class="mt-5 rounded-2xl border border-slate-500 p-2">
 		<figcaption class="text-center text-4xl text-slate-400">{repo}</figcaption>
 		{#key showTotalCommitCount}
