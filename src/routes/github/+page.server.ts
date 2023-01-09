@@ -26,7 +26,6 @@ export type StudentGithubAggregate = {
 
 export async function load({ url, cookies }: RequestEvent) {
 	let availableRepos: Repo[] = [];
-
 	const availableCohortsCookie = cookies.get('availableCohorts');
 	if (!availableCohortsCookie) {
 		// first time user
@@ -76,19 +75,31 @@ export async function load({ url, cookies }: RequestEvent) {
 	}
 	const selectedRepos: string[] = url.searchParams.getAll('repos');
 
+	const { githubAggregates, students } = await calculateAggregate(
+		selectedCohort,
+		selectedRepos,
+		bootcampStart,
+		availableRepos
+	);
+
+	return {
+		cohorts: cohorts.map((cohort) => cohort.name),
+		repos: availableRepos,
+		students,
+		githubAggregates
+	};
+}
+
+async function calculateAggregate(
+	selectedCohort: string,
+	selectedRepos: string[],
+	bootcampStart: string,
+	availableRepos: Repo[]
+) {
 	const students = await getMembersByOrg(selectedCohort);
 
 	// get students commit info for each repo
-	const commits = (
-		await Promise.all(
-			selectedRepos.flatMap(async (repo) => {
-				const createdAt = availableRepos.find(
-					(availableRepo) => availableRepo.name === repo
-				)?.createdAt;
-				return await getCommitsByRepo(repo, selectedCohort, createdAt!, bootcampStart);
-			})
-		)
-	).flat();
+	const commits = await getAllCommits(selectedRepos, selectedCohort, bootcampStart, availableRepos);
 
 	// map over commits and add student info
 	const studentsCommits = commits.map((commit) => {
@@ -106,8 +117,6 @@ export async function load({ url, cookies }: RequestEvent) {
 		sortedCommits,
 		(commit) => `${commit.githubLogin}-${commit.repo}`
 	);
-
-	console.log(groupedCommits);
 
 	// aggregate and calculate the difference between the first and last commit
 	const githubAggregates: StudentGithubAggregate[] = Object.values(groupedCommits).map(
@@ -137,12 +146,25 @@ export async function load({ url, cookies }: RequestEvent) {
 		}
 	);
 
-	return {
-		cohorts: cohorts.map((cohort) => cohort.name),
-		repos: availableRepos,
-		students,
-		githubAggregates
-	};
+	return { githubAggregates, students };
+}
+
+async function getAllCommits(
+	selectedRepos: string[],
+	selectedCohort: string,
+	bootcampStart: string,
+	availableRepos: Repo[]
+) {
+	const allcommits = await Promise.all(
+		selectedRepos.flatMap(async (repo) => {
+			const createdAt = availableRepos.find(
+				(availableRepo) => availableRepo.name === repo
+			)?.createdAt;
+			return await getCommitsByRepo(repo, selectedCohort, createdAt!, bootcampStart);
+		})
+	);
+
+	return allcommits.flat();
 }
 
 async function getJoinedOrgs() {
