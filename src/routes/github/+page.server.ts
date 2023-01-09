@@ -27,6 +27,30 @@ export type StudentGithubAggregate = {
 export async function load({ url, cookies }: RequestEvent) {
 	let availableRepos: Repo[] = [];
 	const availableCohortsCookie = cookies.get('availableCohorts');
+
+	if (!availableCohortsCookie && url.searchParams.has('cohort') && url.searchParams.has('repos')) {
+		// first time user but has cohort and repos in the url
+		const selectedCohort = url.searchParams.get('cohort') || '';
+		const selectedRepos: string[] = url.searchParams.getAll('repos');
+		const cohorts = await getJoinedOrgs();
+		availableRepos = await getReposByOrg(selectedCohort);
+		const bootcampStart = cohorts.find((cohort) => cohort.name === selectedCohort)?.startDate || '';
+
+		const { githubAggregates, students } = await calculateAggregate(
+			selectedCohort,
+			selectedRepos,
+			bootcampStart,
+			availableRepos
+		);
+
+		return {
+			cohorts: cohorts.map((cohort) => cohort.name),
+			repos: availableRepos,
+			students,
+			githubAggregates
+		};
+	}
+
 	if (!availableCohortsCookie) {
 		// first time user
 
@@ -223,8 +247,8 @@ async function getJoinedOrgs() {
 	const edges = responseData.data.viewer.organizations.edges;
 	const orgs = edges
 		.filter((edge) => edge.node.description) // only include orgs with a description
-		.filter((edge) => !isNaN(Date.parse(edge.node.description!))) // only include orgs with a valid date
-		.map((edge) => ({ name: edge.node.login, startDate: edge.node.description }));
+		.filter((edge) => !isNaN(Date.parse(edge.node.description as string))) // only include orgs with a valid date
+		.map((edge) => ({ name: edge.node.login, startDate: edge.node.description as string }));
 	return orgs;
 }
 
