@@ -9,14 +9,14 @@
 	import Radar from './Radar.svelte';
 	import TotalCommits from './TotalCommits.svelte';
 	import Table from './Table.svelte';
-	import { groupBy } from 'lodash';
+	import _ from 'lodash';
 
 	export let studentsAggregates: StudentGithubAggregate[];
 	export let orderedStudents: Student[];
 	let showTotalCommitCount = false;
 
 	// group by challenge
-	const challenges = groupBy(studentsAggregates, 'repo');
+	const challenges = _.groupBy(studentsAggregates, 'repo');
 	$: cohort = new URLSearchParams($page.url.searchParams).get('cohort');
 </script>
 

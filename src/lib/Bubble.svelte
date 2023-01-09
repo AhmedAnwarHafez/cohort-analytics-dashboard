@@ -4,12 +4,12 @@
 
 	import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
 	import type { StudentGithubAggregate } from 'src/routes/github/+page.server';
-	import { groupBy } from 'lodash';
+	import _ from 'lodash';
 
 	ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale);
 
 	export let data: StudentGithubAggregate[];
-	$: groupedByRepo = groupBy(data, 'repo');
+	$: groupedByRepo = _.groupBy(data, 'repo');
 	export let showTotalCommitCount = false;
 
 	function normalize<T extends number>(array: T[], min: number, max: number) {
