@@ -24,6 +24,8 @@ export type StudentGithubAggregate = {
 	totalCount: number;
 };
 
+export type Data = Awaited<ReturnType<typeof load>>;
+
 export async function load({ url, cookies }: RequestEvent) {
 	let availableRepos: Repo[] = [];
 	const availableCohortsCookie = cookies.get('availableCohorts');

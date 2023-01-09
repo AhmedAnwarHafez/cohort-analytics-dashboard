@@ -1,15 +1,14 @@
 <script lang="ts">
 	import _ from 'lodash';
-	import { page } from '$app/stores';
 
-	import type { Cohort, Repo, Student, StudentGithubAggregate } from './+page.server';
 	import Github from '$lib/Github.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
+	import type { Data } from './+page.server';
 
-	export let data: { students: Student[]; repos: Repo[]; cohorts: Cohort[] };
+	export let data: Data;
 	// read query params from the URL
-	let students: Student[] = $page.data.students;
-	$: studentsAggregates = ($page.data.githubAggregates as StudentGithubAggregate[]) || [];
+	$: students = data.students;
+	$: studentsAggregates = data.githubAggregates || [];
 	$: orderedStudents = _.orderBy(students, ['login'], ['asc']);
 </script>
 
