@@ -16,7 +16,7 @@
 	let showTotalCommitCount = false;
 
 	// group by challenge
-	const challenges = _.groupBy(studentsAggregates, 'repo');
+	$: challenges = _.groupBy(studentsAggregates, 'repo');
 	$: cohort = new URLSearchParams($page.url.searchParams).get('cohort');
 </script>
 
