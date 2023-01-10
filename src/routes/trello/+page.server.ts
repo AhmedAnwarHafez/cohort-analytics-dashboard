@@ -13,8 +13,8 @@ export const load = (async ({ url }) => {
 		};
 	}
 
-	const boardNames = url.searchParams.getAll('orgs');
-	const boards = await fetchAll(boardNames);
+	const orgs = url.searchParams.getAll('orgs');
+	const boards = await fetchAll(orgs);
 	const aggregatedBoards = boards
 		// put the cards in the board object
 		.map((board) => ({
@@ -49,8 +49,10 @@ export const load = (async ({ url }) => {
 		})
 		.sort((a, b) => b.totalBounces - a.totalBounces);
 
+	//TODO: this should be stored in a cookie or something, will fix it later
+	const organisations = await fetchMyOrganisations();
 	return {
-		organisations: [],
+		organisations: organisations,
 		boards: aggregatedBoards
 	};
 }) satisfies PageServerLoad;

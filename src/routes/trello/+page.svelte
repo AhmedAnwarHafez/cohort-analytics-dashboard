@@ -50,7 +50,7 @@
 		<tbody>
 			{#each data.boards as { name, shortUrl, totalBounces, cards }}
 				<tr class="table-row">
-					<td class="table-body-cell border-l">
+					<td class="table-body-cell border-l align-text-top">
 						{totalBounces}
 					</td>
 					<td class="table-body-cell border-r text-left">
@@ -65,7 +65,12 @@
 								{#each cards as card}
 									<li class="text-left text-xl text-slate-200">
 										<code class="p-2">{card.bounces}</code>
-										<a href={card.shortUrl} class="text-sky-400 hover:underline">{card.name}</a>
+										<a
+											href={card.shortUrl}
+											target="_blank"
+											rel="noreferrer"
+											class="text-sky-400 hover:underline">{card.name}</a
+										>
 									</li>
 								{/each}
 							</ul>
