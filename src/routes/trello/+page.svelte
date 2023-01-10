@@ -20,13 +20,13 @@
 			<ul class="flex flex-col gap-2">
 				{#each data.organisations as org}
 					<li class="flex content-center text-slate-200">
-						<label for={org.name}>
+						<label for={org.name} class="cursor-default">
 							<input
 								type="checkbox"
 								name="orgs"
 								id={org.name}
-								value={org.name}
 								on:change={handleSelect}
+								checked={$page.url.searchParams.getAll('orgs').includes(org.name)}
 							/>
 							{org.name}
 						</label>
@@ -46,7 +46,7 @@
 				<th
 					class="table-cell rounded-tr-xl border-r-[1px] border-t-[1px] border-slate-700 bg-slate-900 p-4 pt-6 text-left font-semibold"
 				>
-					Name
+					Student&apos;s board
 				</th>
 			</tr>
 		</thead>
@@ -54,7 +54,7 @@
 			{#each data.boards as { name, shortUrl, totalBounces, cards }}
 				<tr class="table-row">
 					<td class="table-body-cell border-l align-text-top">
-						{totalBounces}
+						<code class="p-2">{totalBounces}</code>
 					</td>
 					<td class="table-body-cell border-r text-left">
 						<details>
