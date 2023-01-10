@@ -21,26 +21,33 @@ export const load = (async ({ url }) => {
 			...board,
 			cards: board.lists.flatMap((list) => list.cards)
 		}))
-		.map((board) => ({
-			name: board.name,
-			bounces: board.cards
+		.map((board) => {
+			const cards = board.cards
+
 				// filter out cards that don't have actions
 				.filter((card) => card.actions.length > 0)
-				// filter out cards that don't have a CP or WD in the name
 				.filter((card) => card.name.match(/cp/i) || card.name.match(/WD/i))
-				// calculate the number of moves from For Review to Needs Action
-				.reduce(
-					(acc, card) =>
-						card.actions.some(
-							(action) =>
-								action.after!.match(/Needs Action/i) && action.before!.match(/For Review/i)
-						)
-							? acc + 1
-							: acc,
-					0
+				.filter((card) =>
+					card.actions.some(
+						(action) => action.after!.match(/Needs Action/i) && action.before!.match(/For Review/i)
+					)
 				)
-		}))
-		.sort((a, b) => b.bounces - a.bounces);
+				.flatMap(({ id, shortUrl, name, actions }) => ({
+					id,
+					name,
+					shortUrl: shortUrl,
+					bounces: actions.filter(
+						(action) => action.before!.match(/For Review/i) && action.after!.match(/Needs Action/i)
+					).length
+				}));
+			return {
+				name: board.name,
+				shortUrl: board.shortUrl,
+				cards,
+				totalBounces: cards.reduce((acc, card) => acc + card.bounces, 0)
+			};
+		})
+		.sort((a, b) => b.totalBounces - a.totalBounces);
 
 	return {
 		organisations: [],
