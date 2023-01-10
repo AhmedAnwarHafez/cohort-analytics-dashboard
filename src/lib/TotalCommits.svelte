@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Bar } from 'svelte-chartjs';
+	import hash from 'string-hash';
 	import _ from 'lodash';
 	import type { StudentGithubAggregate } from '../routes/github/+page.server';
 	import {
@@ -29,8 +30,8 @@
 			labels: uniqueStudents.map((student) => student.githubLogin),
 			datasets: Object.keys(groupedByRepo).map((repo) => ({
 				label: repo,
-				backgroundColor: `hsl(${_.random(0, 360)}, 80%, 70%)`,
-				hoverBackgroundColor: `hsl(${_.random(0, 360)}, 45%, 70%)`,
+				backgroundColor: `hsl(${hash(repo) % 360}, 80%, 70%)`,
+				hoverBackgroundColor: `hsl(${hash(repo) % 360}, 45%, 70%)`,
 				data: uniqueStudents
 					.map((student) => {
 						const studentData = groupedByRepo[repo].find(
