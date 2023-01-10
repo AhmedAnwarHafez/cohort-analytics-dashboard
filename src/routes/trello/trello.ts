@@ -28,7 +28,8 @@ const fetchBatchBoardsFromOrgIds = async (orgIds: string[]) => {
 			'200': z.array(
 				z.object({
 					name: z.string(),
-					id: z.string()
+					id: z.string(),
+					shortUrl: z.string()
 				})
 			)
 		})
@@ -80,6 +81,7 @@ const fetchBatchCards = async (listIds: ListIds) => {
 						'200': z.array(
 							z.object({
 								name: z.string(),
+								shortUrl: z.string(),
 								id: z.string()
 							})
 						)
@@ -96,6 +98,7 @@ const fetchBatchCards = async (listIds: ListIds) => {
 						return cards.map((card) => ({
 							id: card.id,
 							name: card.name,
+							shortUrl: card.shortUrl,
 							actions: actionsOfAllCards
 								.filter((actions) => actions.some((action) => action.data.card.id === card.id))
 								.flatMap((action) => action)
