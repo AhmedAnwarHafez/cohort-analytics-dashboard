@@ -1,7 +1,16 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { updateParams } from '$lib/searchParams';
 	import type { Data } from './+page.server';
 
 	export let data: Data;
+
+	function handleSelect(e: Event) {
+		const target = e.target as HTMLInputElement;
+		const newSearchParam = updateParams(target, $page.url.searchParams);
+		goto(`?${newSearchParam.toString()}`, { replaceState: true, keepFocus: true });
+	}
 </script>
 
 <main class="container mt-10 flex flex-row gap-8">
@@ -10,7 +19,13 @@
 			{#each data.organisations as org}
 				<li class="text-slate-200">
 					<label for={org.name}>
-						<input type="checkbox" name="orgs" id={org.name} value={org.name} />
+						<input
+							type="checkbox"
+							name="orgs"
+							id={org.name}
+							value={org.name}
+							on:change={handleSelect}
+						/>
 						{org.name}
 					</label>
 				</li>
