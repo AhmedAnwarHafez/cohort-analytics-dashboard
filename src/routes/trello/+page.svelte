@@ -13,26 +13,29 @@
 	}
 </script>
 
-<main class="container mt-10 flex flex-row gap-8">
-	<form method="get" class="mx-auto flex flex-col gap-10">
-		<ul>
-			{#each data.organisations as org}
-				<li class="text-slate-200">
-					<label for={org.name}>
-						<input
-							type="checkbox"
-							name="orgs"
-							id={org.name}
-							value={org.name}
-							on:change={handleSelect}
-						/>
-						{org.name}
-					</label>
-				</li>
-			{/each}
-		</ul>
+<main class="container mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-start">
+	<form method="get" class="mx-auto flex basis-2/12 flex-col gap-10">
+		<fieldset class="flex flex-col gap-4">
+			<p class="text-left text-lg text-slate-400">Trello Organisations</p>
+			<ul class="flex flex-col gap-2">
+				{#each data.organisations as org}
+					<li class="flex content-center text-slate-200">
+						<label for={org.name}>
+							<input
+								type="checkbox"
+								name="orgs"
+								id={org.name}
+								value={org.name}
+								on:change={handleSelect}
+							/>
+							{org.name}
+						</label>
+					</li>
+				{/each}
+			</ul>
+		</fieldset>
 	</form>
-	<table class="table w-full  p-4 text-lg text-slate-300">
+	<table class="table basis-10/12 p-4 text-lg text-slate-300 lg:basis-8/12">
 		<thead class="table-header-group">
 			<tr class="table-row ">
 				<th
