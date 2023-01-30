@@ -1,6 +1,10 @@
 // import github token from .env file as a static value
 import _ from 'lodash';
 import { z } from 'zod';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import ml from 'ml-regression';
+
 import { GITHUB_TOKEN } from '$env/static/private';
 import type { RequestEvent } from './$types';
 import { error } from '@sveltejs/kit';
@@ -38,7 +42,7 @@ export async function load({ url, cookies }: RequestEvent) {
 		availableRepos = await getReposByOrg(selectedCohort);
 		const bootcampStart = cohorts.find((cohort) => cohort.name === selectedCohort)?.startDate || '';
 
-		const { githubAggregates, students } = await calculateAggregate(
+		const { githubAggregates, students, studentSlopes } = await calculateAggregate(
 			selectedCohort,
 			selectedRepos,
 			bootcampStart,
@@ -49,7 +53,8 @@ export async function load({ url, cookies }: RequestEvent) {
 			cohorts: cohorts.map((cohort) => cohort.name),
 			repos: availableRepos,
 			students,
-			githubAggregates
+			githubAggregates,
+			studentSlopes
 		};
 	}
 
@@ -107,7 +112,7 @@ export async function load({ url, cookies }: RequestEvent) {
 	}
 	const selectedRepos: string[] = url.searchParams.getAll('repos');
 
-	const { githubAggregates, students } = await calculateAggregate(
+	const { githubAggregates, students, studentSlopes } = await calculateAggregate(
 		selectedCohort,
 		selectedRepos,
 		bootcampStart,
@@ -118,7 +123,8 @@ export async function load({ url, cookies }: RequestEvent) {
 		cohorts: cohorts.map((cohort) => cohort.name),
 		repos: availableRepos,
 		students,
-		githubAggregates
+		githubAggregates,
+		studentSlopes
 	};
 }
 
@@ -178,7 +184,10 @@ async function calculateAggregate(
 		}
 	);
 
-	return { githubAggregates, students };
+	const studentSlopes = calculateStudentSlopes(githubAggregates);
+	console.table(studentSlopes);
+
+	return { githubAggregates, students, studentSlopes };
 }
 
 async function getAllCommits(
@@ -478,4 +487,36 @@ function makeQuery(repoName: string, orgName: string, createdAt: string, bootcam
 }
 
 	`;
+}
+
+// this function calculates the slope for each student
+function calculateStudentSlopes(StudentGithubAggregate: StudentGithubAggregate[]) {
+	// group by student
+	const students = _.groupBy(StudentGithubAggregate, 'githubLogin');
+
+	// calculate slope for each student
+	return _.mapValues(students, (student) => {
+		const X = Array.from(Array(student.length).keys());
+		const daysSinceForkedSlope = getSlope(
+			X,
+			student.map((s) => s.daysSinceForked)
+		);
+		const daysSpentSlope = getSlope(
+			X,
+			student.map((s) => s.daysSpentOnChallenge)
+		);
+
+		return {
+			githubLogin: student[0].githubLogin,
+			daysSinceForkedSlope,
+			daysSpentSlope
+		};
+	});
+}
+
+function getSlope(X: number[], Y: number[]) {
+	const coefficients = new ml.SLR(X, Y).coefficients;
+	console.log(coefficients);
+
+	return coefficients[1];
 }
