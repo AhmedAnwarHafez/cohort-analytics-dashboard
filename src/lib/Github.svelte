@@ -2,7 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 
-	import type { Student, StudentGithubAggregate } from 'src/routes/github/+page.server';
+	import type { Student, StudentGithubAggregate, StudentLR } from 'src/routes/github/+page.server';
 	import Bubble from './Bubble.svelte';
 	import Card from './Card.svelte';
 	import Paragraph from './Paragraph.svelte';
@@ -10,8 +10,10 @@
 	import TotalCommits from './TotalCommits.svelte';
 	import Table from './Table.svelte';
 	import _ from 'lodash';
+	import Slopes from './Slopes.svelte';
 
 	export let studentsAggregates: StudentGithubAggregate[];
+	export let studentSlopes: StudentLR;
 	export let orderedStudents: Student[];
 	let showTotalCommitCount = false;
 
@@ -21,6 +23,7 @@
 </script>
 
 <section class="flex flex-col gap-10" transition:fade>
+	<Slopes data={studentSlopes} />
 	<article class="flex flex-col gap-4">
 		<h2 class="text-2xl text-slate-400 underline">What&apos;s on this page</h2>
 		<p class="explain-paragraph">

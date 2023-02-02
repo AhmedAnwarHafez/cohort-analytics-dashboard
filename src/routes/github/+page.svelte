@@ -16,7 +16,7 @@
 <section>
 	{#if data.students.length > 0}
 		<article class="p-10">
-			<Github {orderedStudents} {studentsAggregates} />
+			<Github {orderedStudents} {studentsAggregates} studentSlopes={data.studentSlopes} />
 		</article>
 	{:else}
 		<p class="font-handwritten text-6xl italic text-slate-500">&lt-- use filters</p>

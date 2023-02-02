@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { z } from 'zod';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import ml from 'ml-regression';
+import ml from 'ml-regression-simple-linear';
 
 import { GITHUB_TOKEN } from '$env/static/private';
 import type { RequestEvent } from './$types';
@@ -26,7 +26,10 @@ export type StudentGithubAggregate = {
 	daysSpentOnChallenge: number;
 	daysSinceForked: number;
 	totalCount: number;
+	repoCreatedAt: Date;
 };
+
+export type StudentLR = ReturnType<typeof calculateStudentSlopes>;
 
 export type Data = Awaited<ReturnType<typeof load>>;
 
@@ -179,13 +182,13 @@ async function calculateAggregate(
 				githubLogin,
 				daysSpentOnChallenge,
 				daysSinceForked,
-				totalCount
+				totalCount,
+				repoCreatedAt: firstCommit.createdAt
 			};
 		}
 	);
 
 	const studentSlopes = calculateStudentSlopes(githubAggregates);
-	console.table(studentSlopes);
 
 	return { githubAggregates, students, studentSlopes };
 }
@@ -496,27 +499,30 @@ function calculateStudentSlopes(StudentGithubAggregate: StudentGithubAggregate[]
 
 	// calculate slope for each student
 	return _.mapValues(students, (student) => {
-		const X = Array.from(Array(student.length).keys());
-		const daysSinceForkedSlope = getSlope(
+		// count the number of repos that the student has committed to
+		const reposCommittedTo = _.uniqBy(student, 'repo').length;
+		const X = Array.from({ length: reposCommittedTo }, (_, i) => i);
+
+		const daysSpentLR = getSlope(
 			X,
-			student.map((s) => s.daysSinceForked)
-		);
-		const daysSpentSlope = getSlope(
-			X,
-			student.map((s) => s.daysSpentOnChallenge)
+			// sort repos by date
+			student
+				.sort((a, b) => a.repoCreatedAt.getTime() - b.repoCreatedAt.getTime())
+				.map((s) => s.daysSpentOnChallenge)
 		);
 
 		return {
 			githubLogin: student[0].githubLogin,
-			daysSinceForkedSlope,
-			daysSpentSlope
+			daysSpentLR
 		};
 	});
 }
 
 function getSlope(X: number[], Y: number[]) {
-	const coefficients = new ml.SLR(X, Y).coefficients;
-	console.log(coefficients);
+	if (X.length !== Y.length) {
+		return { slope: 0, intercept: 0 };
+	}
 
-	return coefficients[1];
+	const { slope, intercept } = new ml(X, Y);
+	return { slope, intercept };
 }
