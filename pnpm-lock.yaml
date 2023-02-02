@@ -10,6 +10,7 @@ specifiers:
   '@tailwindcss/forms': ^0.5.3
   '@types/cookie': ^0.5.1
   '@types/lodash': ^4.14.191
+  '@types/plotly.js-dist-min': ^2.3.1
   '@types/string-hash': ^1.1.1
   '@typescript-eslint/eslint-plugin': ^5.45.0
   '@typescript-eslint/parser': ^5.45.0
@@ -20,10 +21,12 @@ specifiers:
   eslint-plugin-svelte3: ^4.0.0
   lodash: ^4.17.21
   ml-regression-simple-linear: ^2.0.3
+  plotly.js-dist-min: ^2.18.0
   postcss: ^8.4.20
   prettier: ^2.8.1
   prettier-plugin-svelte: ^2.8.1
   prettier-plugin-tailwindcss: ^0.2.1
+  save: ^2.9.0
   string-hash: ^1.1.3
   svelte: ^3.54.0
   svelte-chartjs: ^3.1.0
@@ -41,6 +44,8 @@ dependencies:
   chart.js: 4.1.1
   lodash: 4.17.21
   ml-regression-simple-linear: 2.0.3
+  plotly.js-dist-min: 2.18.0
+  save: 2.9.0
   string-hash: 1.1.3
   svelte-chartjs: 3.1.0_rtwzhpjk3rjqr2jnch3pv3czl4
   zod: 3.20.2
@@ -54,6 +59,7 @@ devDependencies:
   '@sveltejs/kit': 1.0.1_svelte@3.55.0+vite@4.0.3
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   '@types/cookie': 0.5.1
+  '@types/plotly.js-dist-min': 2.3.1
   '@typescript-eslint/eslint-plugin': 5.47.0_ncmi6noazr3nzas7jxykisekym
   '@typescript-eslint/parser': 5.47.0_lzzuuodtsqwxnvqeq4g4likcqa
   autoprefixer: 10.4.13_postcss@8.4.20
@@ -489,6 +495,16 @@ packages:
     resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}
     dev: true
 
+  /@types/plotly.js-dist-min/2.3.1:
+    resolution: {integrity: sha512-9+rTvlyKDclIB9twal6ou6unUN6iTATLcRvakoFYaHGPnVRNe06LbUGOcgD8O+sddBFz3y2kS2hTKbUPGeVsHA==}
+    dependencies:
+      '@types/plotly.js': 2.12.13
+    dev: true
+
+  /@types/plotly.js/2.12.13:
+    resolution: {integrity: sha512-p/xo8LuJMxSvT/szkjgUJVlopRu049NZ+p46MpcSlovmO6tIgyzldm8kLUo9p24XE/5iZzGSTtvIUQjLwIUQxw==}
+    dev: true
+
   /@types/pug/2.0.6:
     resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
     dev: true
@@ -767,6 +783,10 @@ packages:
   /assertion-error/1.1.0:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
     dev: true
+
+  /async/3.2.4:
+    resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==}
+    dev: false
 
   /autoprefixer/10.4.13_postcss@8.4.20:
     resolution: {integrity: sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==}
@@ -1103,6 +1123,10 @@ packages:
       esutils: 2.0.3
     dev: true
 
+  /duplexer/0.1.2:
+    resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
+    dev: false
+
   /eastasianwidth/0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
@@ -1311,6 +1335,18 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /event-stream/4.0.1:
+    resolution: {integrity: sha512-qACXdu/9VHPBzcyhdOWR5/IahhGMf0roTeZJfzz077GwylcDd90yOHLouhmv7GJ5XzPi6ekaQWd8AvPP2nOvpA==}
+    dependencies:
+      duplexer: 0.1.2
+      from: 0.1.7
+      map-stream: 0.0.7
+      pause-stream: 0.0.11
+      split: 1.0.1
+      stream-combiner: 0.2.2
+      through: 2.3.8
+    dev: false
+
   /execa/5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
@@ -1400,6 +1436,10 @@ packages:
   /fraction.js/4.2.0:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
+
+  /from/0.1.7:
+    resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==}
+    dev: false
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
@@ -1677,6 +1717,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.assign/4.2.0:
+    resolution: {integrity: sha512-hFuH8TY+Yji7Eja3mGiuAxBqLagejScbG8GbG0j6o9vzn0YL14My+ktnqtZgFTosKymC9/44wP6s7xyuLfnClw==}
+    dev: false
+
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
@@ -1714,6 +1758,10 @@ packages:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /map-stream/0.0.7:
+    resolution: {integrity: sha512-C0X0KQmGm3N2ftbTGBhSyuydQ+vV1LC3f3zPvT3RXHXNZrvfPZcoXp/N5DOa8vedX/rTMm2CjTtivFg2STJMRQ==}
+    dev: false
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -1777,6 +1825,10 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
     dev: true
+
+  /mingo/6.2.7:
+    resolution: {integrity: sha512-r+yKmrZ+6SjwGxSot+/3S8sP9+LCxWNueR6xppMx7BzV60OegjbeklWAf/UveyQi8PDW8g/mwrQSHZVY/5jBJQ==}
+    dev: false
 
   /mini-svg-data-uri/1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
@@ -1969,6 +2021,12 @@ packages:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: true
 
+  /pause-stream/0.0.11:
+    resolution: {integrity: sha512-e3FBlXLmN/D1S+zHzanP4E/4Z60oFAa3O051qt1pxa7DEJWKAyil6upYVXCWadEnuoqa4Pkc9oUx9zsxYeRv8A==}
+    dependencies:
+      through: 2.3.8
+    dev: false
+
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: true
@@ -1989,6 +2047,10 @@ packages:
     hasBin: true
     dev: true
     optional: true
+
+  /plotly.js-dist-min/2.18.0:
+    resolution: {integrity: sha512-IB++Ow7uvc4PZIH2sNZx/T3Zf/QBJ8M4UauADoz3GBumYuwgH2rqba2b1XS7xpmbnybIQUVnB2pCMeIpu9is7w==}
+    dev: false
 
   /postcss-import/14.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -2239,6 +2301,15 @@ packages:
       rimraf: 2.7.1
     dev: true
 
+  /save/2.9.0:
+    resolution: {integrity: sha512-eg8+g8CjvehE/2C6EbLdtK1pINVD27pcJLj4M9PjWWhoeha/y5bWf4dp/0RF+OzbKTcG1bae9qi3PAqiR8CJTg==}
+    dependencies:
+      async: 3.2.4
+      event-stream: 4.0.1
+      lodash.assign: 4.2.0
+      mingo: 6.2.7
+    dev: false
+
   /semver/7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
@@ -2342,6 +2413,19 @@ packages:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: true
+
+  /split/1.0.1:
+    resolution: {integrity: sha512-mTyOoPbrivtXnwnIxZRFYRrPNtEFKlpB2fvjSnCQUiAA6qAZzqwna5envK4uk6OIeP17CsdF3rSBGYVBsU0Tkg==}
+    dependencies:
+      through: 2.3.8
+    dev: false
+
+  /stream-combiner/0.2.2:
+    resolution: {integrity: sha512-6yHMqgLYDzQDcAkL+tjJDC5nSNuNIx0vZtRZeiPh7Saef7VHX9H5Ijn9l2VIol2zaNYlYEX6KyuT/237A58qEQ==}
+    dependencies:
+      duplexer: 0.1.2
+      through: 2.3.8
+    dev: false
 
   /streamsearch/1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
@@ -2578,6 +2662,10 @@ packages:
   /text-table/0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
+
+  /through/2.3.8:
+    resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+    dev: false
 
   /tiny-glob/0.2.9:
     resolution: {integrity: sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==}
